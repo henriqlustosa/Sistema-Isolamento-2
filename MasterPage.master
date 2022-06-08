@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     
-    <title>Pronto Socorro - HSPM</title>
+    <title>CCIH - HSPM</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     
@@ -30,7 +30,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;padding-left: 5px;">
-                        <a href="<%= ResolveUrl("~/Home.aspx") %>" class="site_title"><i class="fa fa-hospital-o"></i><span style="padding: 10px">HSPM PS</span></a>
+                        <a href="<%= ResolveUrl("~/Home.aspx") %>" class="site_title"><i class="fa fa-hospital-o"></i><span style="padding: 10px">HSPM CCIH</span></a>
                     </div>
                     <div class="clearfix">
                     </div>

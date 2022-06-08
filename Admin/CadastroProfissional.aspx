@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+﻿        <%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CadastroProfissional.aspx.cs" Inherits="Admin_CadastroProfissional"
     Title="Pronto Socorro - HSPM" %>
 

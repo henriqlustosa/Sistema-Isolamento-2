@@ -28,12 +28,12 @@ public class ConsolidadosDAO
                       " FROM [hspmPs].[dbo].[vw_con_be_tipo_pac_mes]" +
                       " WHERE BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
 
-        string qySetor = "SELECT [setor] " +
+        string qySetor = "SELECT [NomeClinica] " +
                         ",[BE_MONTH] " +
                         ",[BE_YEAR] " +
                         ",[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14] ,[15],[16],[17] ,[18],[19],[20]" +
                         ",[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[TOTAL] " +
-                    " FROM [hspmPs].[dbo].[vw_con_be_setor_mes]" +
+                    " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_setor_mes]" +
                     " WHERE BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
 
         string qyProcedencia = "SELECT [tipo_paciente] " +

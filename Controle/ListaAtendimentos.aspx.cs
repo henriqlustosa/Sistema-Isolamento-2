@@ -46,8 +46,8 @@ public partial class Controle_ListaAtendimentos : System.Web.UI.Page
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = cnn;
-                    command.CommandText = "SELECT * FROM [hspmPs].[dbo].[vw_listagem_atendimento] "+
-                        "WHERE DAY(dt_hr_be) = " + dia + " AND MONTH(dt_hr_be) = " + mes + " AND YEAR(dt_hr_be) = " + ano;
+                    command.CommandText = "SELECT * FROM [Isolamento_Versao_2].[dbo].[Laboratorio] " +
+                        "WHERE DAY(DataSistema) = " + dia + " AND MONTH(DataSistema) = " + mes + " AND YEAR(DataSistema) = " + ano;
 
                     using (SqlDataAdapter adapter = new SqlDataAdapter())
                     {
@@ -76,7 +76,7 @@ public partial class Controle_ListaAtendimentos : System.Web.UI.Page
         Response.ClearContent();
         Response.ClearHeaders();
         Response.Charset = "";
-        string FileName = "Atendimentos" + DateTime.Now + ".xls";
+        string FileName = "Exames" + DateTime.Now + ".xls";
         StringWriter strwritter = new StringWriter();
         HtmlTextWriter htmltextwrtter = new HtmlTextWriter(strwritter);
         Response.Cache.SetCacheability(HttpCacheability.NoCache);

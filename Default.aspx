@@ -8,7 +8,7 @@
     <meta charset="utf-8" content="IE=edge" />
     <meta http-equiv="X-UA-Compatible" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pronto Socorro - HSPM</title>
+    <title>CCIH - HSPM</title>
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Font Awesome -->
@@ -66,7 +66,7 @@
                 <br />
 
                 <div>
-                  <p>©2020 HSPM - Hospital do Servidor Público Municipal</p>
+                  <p>©2022 HSPM - Hospital do Servidor Público Municipal</p>
                 </div>
               </div>
             </form>

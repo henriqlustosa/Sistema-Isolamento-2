@@ -6,6 +6,8 @@
       <siteMapNode url="~/Atendimento/Historico.aspx" title="2ª Via"  description="Pesquisa de BE e IMpressão de 2ª via" />
       <siteMapNode url="~/Atendimento/AtualizarFicha.aspx" title="Atualizar Ficha"  description="Atualização da Ficha de Atendimento" />
       <siteMapNode url="~/Atendimento/EtiquetasAvulso.aspx" title="Etiquetas Avulso"  description="Impressão de Etiquetas Avulso" />
+      <siteMapNode url="~/Atendimento/Censo.aspx" title="Censo"  description="Censo de Pacientes Internados" />
+      <siteMapNode url="~/Atendimento/Laboratorio.aspx" title="Laboratorio"  description="Resultado de Exames" />
     </siteMapNode>
 
     <siteMapNode url="" title="Administrativo" roles="administrativo" description="">
@@ -32,8 +34,8 @@
 
     <siteMapNode url="" title="Relatórios" roles="administrador" description="">
       <siteMapNode url="~/Controle/ConsolidadoMes.aspx" title="Consolidado Mês"  description="" />
-      <siteMapNode url="~/Controle/ListaAtendimentos.aspx" title="Lista de Atendimentos Dia"  description="Exporta lista de atendimentos do dia pesquisado" />
-      <siteMapNode url="~/Controle/ListaAtendimentosMes.aspx" title="Lista de Atendimentos Mês"  description="Exporta lista de atendimentos do mês pesquisado" />
+      <siteMapNode url="~/Controle/ListaAtendimentos.aspx" title="Lista de Exames Dia"  description="Exporta lista de exames do dia pesquisado" />
+      <siteMapNode url="~/Controle/ListaAtendimentosMes.aspx" title="Lista de Exames Mês"  description="Exporta lista de exames do mês pesquisado" />
       <siteMapNode url="~/Graficos/StatusMes.aspx" title="Gráfico por Status"  description="" />
       <siteMapNode url="~/Controle/EstatisticaSetor.aspx" title="Estatistica por Setor"  description="" />
       <siteMapNode url="~/Graficos/GraficoProcedencia.aspx" title="Estatistica por Procedencia"  description="" />

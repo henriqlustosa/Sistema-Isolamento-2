@@ -35,7 +35,7 @@ public class FichaDAO
             SqlCommand cmm = cnn.CreateCommand();
             cmm.CommandText = "SELECT [cod_ficha] " +
                                   ",[dt_hr_be]" +
-                                  ",[setor]" +
+                                  ",[setor]" +  
                                   ",[nome_paciente]" +
                                   ",[dt_nascimento]" +
                                   ",[idade]" +

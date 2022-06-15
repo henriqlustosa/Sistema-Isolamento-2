@@ -8,6 +8,7 @@
       <siteMapNode url="~/Atendimento/EtiquetasAvulso.aspx" title="Etiquetas Avulso"  description="Impressão de Etiquetas Avulso" />
       <siteMapNode url="~/Atendimento/Censo.aspx" title="Censo"  description="Censo de Pacientes Internados" />
       <siteMapNode url="~/Atendimento/Laboratorio.aspx" title="Laboratorio"  description="Resultado de Exames" />
+      <siteMapNode url="~/Atendimento/CCIH.aspx" title="CCIH"  description="Resultado de Pacientes com MDR" />
     </siteMapNode>
 
     <siteMapNode url="" title="Administrativo" roles="administrativo" description="">

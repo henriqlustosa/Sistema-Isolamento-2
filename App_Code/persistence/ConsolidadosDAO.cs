@@ -20,12 +20,12 @@ public class ConsolidadosDAO
     public static DataTable GetListaDados(int mes, int ano, int categoria)
     {
 
-        string qyPaciente = "SELECT [tipo_paciente] " +
+        string qyPaciente = "SELECT [Resultado] " +
                           ",[BE_MONTH] " +
                           ",[BE_YEAR] " +
                           ",[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14] ,[15],[16],[17] ,[18],[19],[20]" +
                           ",[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[TOTAL] " +
-                      " FROM [hspmPs].[dbo].[vw_con_be_tipo_pac_mes]" +
+                      " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_resultado_mes]" +
                       " WHERE BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
 
         string qySetor = "SELECT [NomeClinica] " +
@@ -36,13 +36,13 @@ public class ConsolidadosDAO
                     " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_setor_mes]" +
                     " WHERE BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
 
-        string qyProcedencia = "SELECT [tipo_paciente] " +
+        string qyProcedencia = "SELECT [Nome] " +
                         ",[BE_MONTH] " +
                         ",[BE_YEAR] " +
                         ",[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14] ,[15],[16],[17] ,[18],[19],[20]" +
                         ",[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[TOTAL] " +
-                    " FROM [hspmPs].[dbo].[vw_con_be_procedencia]" +
-                    " WHERE [procedencia] = 'SAMU' AND BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
+                    " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_material_mes]" +
+                    " WHERE BE_MONTH =" + mes + " AND BE_YEAR =" + ano;
 
         string qyPM = "SELECT [tipo_paciente] " +
                         ",[BE_MONTH] " +
@@ -194,7 +194,7 @@ public class ConsolidadosDAO
 
                     ConsolidadoMesTipo consolidado = new ConsolidadoMesTipo();
 
-                    if (categoria.Equals(1) || categoria.Equals(3) || categoria.Equals(4) || categoria.Equals(5) || categoria.Equals(6) || categoria.Equals(7) || categoria.Equals(8) || categoria.Equals(9))
+                    if (  categoria.Equals(4) || categoria.Equals(5) || categoria.Equals(6) || categoria.Equals(7) || categoria.Equals(8) || categoria.Equals(9))
                     {
                         if (dr1.GetString(0) == "F")
                         {
@@ -206,6 +206,14 @@ public class ConsolidadosDAO
                         }
                     }
                     else if (categoria.Equals(2))
+                    {
+                        consolidado.tipo = dr1.GetString(0);
+                    }
+                    else if (categoria.Equals(1))
+                    {
+                        consolidado.tipo = dr1.GetString(0);
+                    }
+                    else if (categoria.Equals(3))
                     {
                         consolidado.tipo = dr1.GetString(0);
                     }

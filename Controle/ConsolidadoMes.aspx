@@ -26,7 +26,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            CONTROLE GERAL CONSULTAS DIA - HSPM e RESGATE</h2>
+                            CONTROLE GERAL DE EXAMES DIA - HSPM </h2>
                         <div class="clearfix">
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                 <div class="x_panel titulo">
                     <div class="x_title">
                         <h2>
-                            Consultas Porta</h2>
+                            Consulta por Resultado</h2>
                         <div class="clearfix">
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 <div id="Div2" class="x_panel titulo">
                     <div class="x_title">
                         <h2>
-                            Consultas Por Resgate SAMU</h2>
+                            Consultas Por Material</h2>
                         <div class="clearfix">
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                         </asp:GridView>
                     </div>
                 </div>
-                <div id="Div3" class="x_panel titulo">
+                <!--div id="Div3" class="x_panel titulo">
                     <div class="x_title">
                         <h2>
                             Consultas Por Resgate Polícia Militar</h2>
@@ -166,7 +166,7 @@
                         <asp:GridView ID="gvAP" OnRowDataBound="gvAplicaCor_RowDataBound" runat="server" ForeColor="#333333" CssClass="table table-sm table-striped table-bordered">
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                         </asp:GridView>
-                    </div>
+                    </div!-->
                 </div>
             </div>
         </ContentTemplate>

@@ -72,4 +72,35 @@ public class ListaLaboratorioDAO
         return lista;
 
     }
+
+    public static Boolean GetPacienteLaboratorio(int _cod_laboratorio)
+    {
+        bool status = false;
+        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["psConnectionString"].ToString()))
+        {
+            SqlCommand cmm = cnn.CreateCommand();
+            cmm.CommandText = "SELECT [rh] " +
+                                  
+                              "FROM [Isolamento_Versao_2].[dbo].[Paciente] " +
+                              "WHERE rh = " + _cod_laboratorio;
+            try
+            {
+                cnn.Open();
+
+                SqlDataReader dr1 = cmm.ExecuteReader();
+
+                if (dr1.Read())
+                {
+
+                    status = true;  
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
+        return status;
+    }
+
 }

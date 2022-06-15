@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Paciente
+/// Summary description for CCIH
 /// </summary>
-public class Paciente
+public class CCIH
 {
-	public Paciente()
+	public CCIH()
 	{
 		//
 		// TODO: Add constructor logic here
@@ -35,8 +35,4 @@ public class Paciente
     public string nm_unidade_funcional { get; set; }
     public string tempo { get; set; }
     public string vinculo { get; set; }
-    public string mdr{ get; set; }
-   
-    
-    
 }

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     EnableEventValidation="false" CodeFile="AberturaFicha.aspx.cs" Inherits="Atendimento_AberturaFicha"
-    Title="Pronto Socorro - HSPM" %>
+    Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -77,12 +77,12 @@
 
                                 return {
 
-                                    label: item.nome_paciente,
-                                    value: item.nome_paciente,
+                                    label: item.nm_paciente,
+                                    value: item.nm_paciente,
 
-                                    dt_rh_be: item.dt_rh_be,
-                                    prontuario: item.prontuario,
-                                    documento: item.documento,
+                                    
+                                    prontuario: item.cd_prontuario,
+                                    /*documento: item.documento,
                                     cns: item.cns,
                                     tipo_paciente: item.tipo_paciente,
                                     nome_paciente: item.nome_paciente,
@@ -109,7 +109,7 @@
                                     setor: item.setor,
                                     usuario: item.usuario,
                                     info_resgate: item.info_resgate,
-                                    rf: item.rf
+                                    rf: item.rf */
                                 }
                             }))
                         },
@@ -124,18 +124,18 @@
                 select: function(e, i) {
 
 
-                    $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
+                   // $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
 
                     //  $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").prop('checked', true);
 
-                    $("[id$=ddlSetor").val(i.item.setor);
-                    $("[id$=ddlProcedencia").val(i.item.procedencia);
-                    $("[id$=ddlRaca").val(i.item.raca);
-                    $("[id$=ddlSexo").val(i.item.sexo);
-                    $("[id$=txbProntuario").val(i.item.prontuario);
-                    $("[id$=txbDocumento").val(i.item.documento);
+                   // $("[id$=ddlSetor").val(i.item.setor);
+                   // $("[id$=ddlProcedencia").val(i.item.procedencia);
+                   // $("[id$=ddlRaca").val(i.item.raca);
+                   // $("[id$=ddlSexo").val(i.item.sexo);
+                   $("[id$=txbProntuario").val(i.item.prontuario);
+                    //$("[id$=txbDocumento").val(i.item.documento);
                     $("[id$=txbNomePaciente").val(i.item.nome_paciente);
-                    $("[id$=txbNascimento").val(dateFormat(eval(i.item.dt_nascimento.replace('/', 'new ').replace('/', ''))));
+                   /* $("[id$=txbNascimento").val(dateFormat(eval(i.item.dt_nascimento.replace('/', 'new ').replace('/', ''))));
                     $("[id$=txbIdade").val(calculateAge(eval(i.item.dt_nascimento.replace('/', 'new ').replace('/', ''))));
                     $("[id$=txbEndereco").val(i.item.endereco_rua);
                     $("[id$=txbNumero").val(i.item.numero_casa);
@@ -152,7 +152,7 @@
                     $("[id$=txbQueixa").val(i.item.queixa);
                     $("[id$=txbInfoResgate").val(i.item.info_resgate);
                     $("[id$=txbRF").val(i.item.rf);
-                    $("[id$=txbCEP").val(i.item.cep);
+                    $("[id$=txbCEP").val(i.item.cep);*/
                 },
                 minLength: 1 //This is the Char length of inputTextBox    
 
@@ -299,7 +299,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>
-                            Boletim de Emergência<small><i>- Informações do Paciente</i></small></h2>
+                            Boletim de Exame <small><i>- Informações do Paciente</i></small></h2>
                         <div class="clearfix">
                         </div>
                     </div>

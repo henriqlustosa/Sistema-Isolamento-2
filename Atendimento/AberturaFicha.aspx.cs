@@ -51,9 +51,9 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
     }
     [WebMethod]
 
-    public static List<Paciente> GetNomeDePacientes(string prefixo)
+    public static List<InformacoesPaciente> GetNomeDePacientes(string prefixo)
     {
-        List<Paciente> cliente = new List<Paciente>();
+        List<InformacoesPaciente> pacientes = new List<InformacoesPaciente>();
         using (SqlConnection conn = new SqlConnection())
         {
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["psConnectionString"].ConnectionString;
@@ -63,23 +63,24 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
 
                 cmd.Connection = conn;
                 conn.Open();
-                Paciente c = null;
+                InformacoesPaciente c = null;
+                
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     while (sdr.Read())
                     {
-                        c = new Paciente();
-
-                        c.nm_paciente = Convert.ToString(sdr["nome"]);
-                        c.cd_prontuario = Convert.ToString(sdr["rh"]);
-
-                        cliente.Add(c);
+                        c = new InformacoesPaciente();
+                      
+                        
+                        c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["rh"]));
+                        
+                        pacientes.Add(c);
                     }
                 }
                 conn.Close();
             }
         }
-        return cliente;
+        return pacientes;
     }
 
 

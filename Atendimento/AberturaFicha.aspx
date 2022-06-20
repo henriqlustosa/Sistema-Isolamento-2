@@ -72,44 +72,45 @@
                         dataFilter: function(data) { return data; },
                         success: function(data) {
                             //console.log(JSON.stringify(data));
-                            console.log("passando");
+
                             response($.map(data.d, function(item) {
+                                //  console.log(item);
 
                                 return {
 
-                                    label: item.nm_paciente,
-                                    value: item.nm_paciente,
+                                    label: item.nm_nome,
+                                    value: item.nm_nome,
 
-                                    
+
                                     prontuario: item.cd_prontuario,
-                                    /*documento: item.documento,
-                                    cns: item.cns,
-                                    tipo_paciente: item.tipo_paciente,
-                                    nome_paciente: item.nome_paciente,
-                                    dt_nascimento: item.dt_nascimento,
-                                    idade: item.idade,
-                                    sexo: item.sexo,
-                                    raca: item.raca,
-                                    endereco_rua: item.endereco_rua,
+                                    documento: item.nr_rg,
+                                    cns: item.nr_cartao_saude,
+
+                                    nm_nome: item.nm_nome,
+                                    dt_nascimento: item.dt_data_nascimento,
+                                    idade: item.nr_idade,
+                                    sexo: item.in_sexo,
+                                    raca: item.dc_cor,
+                                    /* endereco_rua: item.endereco_rua,
                                     numero_casa: item.numero_casa,
                                     complemento: item.complemento,
                                     bairro: item.bairro,
                                     municipio: item.municipio,
-                                    uf: item.uf,
-                                    cep: item.cep,
-                                    nome_pai_mae: item.nome_pai_mae,
-                                    responsavel: item.responsavel,
-                                    telefone: item.telefone,
-                                    telefone1: item.telefone1,
-                                    telefone2: item.telefone2,
+                                    uf: item.uf,*/
+                                    cep: item.cd_cep,
+                                    nome_pai_mae: item.nm_mae,
+                                    // responsavel: item.responsavel,
+                                    telefone: item.nr_fone,
+                                    telefone1: item.nr_fone_recado,
+                                    //telefone2: item.telefone2,
                                     email: item.email,
-                                    procedencia: item.procedencia,
+                                    /* procedencia: item.procedencia,
                                     informacao_complementar: item.informacao_complementar,
                                     queixa: item.queixa,
                                     setor: item.setor,
                                     usuario: item.usuario,
-                                    info_resgate: item.info_resgate,
-                                    rf: item.rf */
+                                    info_resgate: item.info_resgate,*/
+                                    rf: item.cd_rf_matricula
                                 }
                             }))
                         },
@@ -124,19 +125,20 @@
                 select: function(e, i) {
 
 
-                   // $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
+                    $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
 
-                    //  $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").prop('checked', true);
+                    $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").prop('checked', true);
 
-                   // $("[id$=ddlSetor").val(i.item.setor);
-                   // $("[id$=ddlProcedencia").val(i.item.procedencia);
-                   // $("[id$=ddlRaca").val(i.item.raca);
-                   // $("[id$=ddlSexo").val(i.item.sexo);
-                   $("[id$=txbProntuario").val(i.item.prontuario);
-                    //$("[id$=txbDocumento").val(i.item.documento);
-                    $("[id$=txbNomePaciente").val(i.item.nome_paciente);
-                   /* $("[id$=txbNascimento").val(dateFormat(eval(i.item.dt_nascimento.replace('/', 'new ').replace('/', ''))));
-                    $("[id$=txbIdade").val(calculateAge(eval(i.item.dt_nascimento.replace('/', 'new ').replace('/', ''))));
+                    $("[id$=ddlSetor").val(i.item.setor);
+                    $("[id$=ddlProcedencia").val(i.item.procedencia);
+
+                    $("[id$=ddlRaca").val(i.item.raca);
+                    $("[id$=ddlSexo").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
+                    $("[id$=txbProntuario").val(i.item.prontuario);
+                    $("[id$=txbDocumento").val(i.item.documento);
+                    $("[id$=txbNomePaciente").val(i.item.nm_nome);
+                    $("[id$=txbNascimento").val(i.item.dt_nascimento);
+                    $("[id$=txbIdade").val(i.item.idade);
                     $("[id$=txbEndereco").val(i.item.endereco_rua);
                     $("[id$=txbNumero").val(i.item.numero_casa);
                     $("[id$=txbComplemento").val(i.item.complemento);
@@ -152,7 +154,8 @@
                     $("[id$=txbQueixa").val(i.item.queixa);
                     $("[id$=txbInfoResgate").val(i.item.info_resgate);
                     $("[id$=txbRF").val(i.item.rf);
-                    $("[id$=txbCEP").val(i.item.cep);*/
+                    console.log(i.item.cep.length);
+                    $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8 , '0') : i.item.cep);
                 },
                 minLength: 1 //This is the Char length of inputTextBox    
 
@@ -229,7 +232,7 @@
             });
 
 
-            
+
             $('.numeric').keyup(function() {
                 $(this).val(this.value.replace(/\D/g, ''));
             });

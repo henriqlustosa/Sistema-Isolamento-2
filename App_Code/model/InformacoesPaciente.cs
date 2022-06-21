@@ -30,8 +30,8 @@ public class InformacoesPaciente
     public string nr_ddd_fone_recado { get; set; }
     public string nr_fone_recado { get; set; }
     public string cd_cep { get; set; }
-    public string     dc_logradouro { get; set; }
-    public string   nr_logradouro { get; set; }
+    public string dc_logradouro { get; set; }
+    public string nr_logradouro { get; set; }
        
     public string dc_complemento_logradouro { get; set; }
     public string dc_bairro{ get; set; }
@@ -41,6 +41,8 @@ public class InformacoesPaciente
     public string email { get; set; }
     public string cidade { get; set; }
     public string rf { get; set; }
+
+    public List<Laboratorio> exames { get; set; }
   
     
    

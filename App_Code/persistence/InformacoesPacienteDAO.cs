@@ -33,6 +33,7 @@ public class InformacoesPacienteDAO
             {
                 StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                 model = JsonConvert.DeserializeObject<InformacoesPaciente>(reader.ReadToEnd());
+                model.exames = ListaLaboratorioDAO.ListarExamesLaboratorioPorPaciente(prontuario);
             }
         }
         catch (WebException ex)

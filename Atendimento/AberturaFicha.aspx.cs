@@ -147,7 +147,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
         be.telefone1 = txbTelefone1.Text;
         be.telefone2 = txbTelefone2.Text;
         be.email = txbEmail.Text;
-        be.procedencia = ddlProcedencia.SelectedValue;
+        be.procedencia = ddlResultado.SelectedValue;
         be.informacao_complementar = _inform_complement;
         be.queixa = txbQueixa.Text;
         be.setor = ddlSetor.SelectedValue;

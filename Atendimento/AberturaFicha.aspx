@@ -74,7 +74,8 @@
                             //console.log(JSON.stringify(data));
 
                             response($.map(data.d, function(item) {
-                                //  console.log(item);
+
+                                console.log(item.exames.length);
 
                                 return {
 
@@ -91,19 +92,20 @@
                                     idade: item.nr_idade,
                                     sexo: item.in_sexo,
                                     raca: item.dc_cor,
-                                    /* endereco_rua: item.endereco_rua,
-                                    numero_casa: item.numero_casa,
-                                    complemento: item.complemento,
-                                    bairro: item.bairro,
-                                    municipio: item.municipio,
-                                    uf: item.uf,*/
+                                    // endereco_rua: item.endereco_rua,
+                                    numero_casa: item.nr_logradouro,
+                                    complemento: item.dc_complemento_logradouro,
+                                    //bairro: item.bairro,
+                                    // municipio: item.municipio,
+                                    // uf: item.uf,
                                     cep: item.cd_cep,
                                     nome_pai_mae: item.nm_mae,
                                     // responsavel: item.responsavel,
-                                    telefone: item.nr_fone,
-                                    telefone1: item.nr_fone_recado,
+                                    telefone: item.nr_ddd_fone + item.nr_fone,
+                                    telefone1: item.nr_ddd_fone_recado + item.nr_fone_recado,
                                     //telefone2: item.telefone2,
                                     email: item.email,
+                                    exames: item.exames,
                                     /* procedencia: item.procedencia,
                                     informacao_complementar: item.informacao_complementar,
                                     queixa: item.queixa,
@@ -130,8 +132,15 @@
                     $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").prop('checked', true);
 
                     $("[id$=ddlSetor").val(i.item.setor);
-                    $("[id$=ddlProcedencia").val(i.item.procedencia);
+                    for (var n = 0; n < i.item.exames.length; n++) {
 
+                        var opt = i.item.exames[n].Resultado;
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = opt;
+
+                        $("[id$=ddlResultado").append(el);
+                    }
                     $("[id$=ddlRaca").val(i.item.raca);
                     $("[id$=ddlSexo").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
                     $("[id$=txbProntuario").val(i.item.prontuario);
@@ -155,7 +164,7 @@
                     $("[id$=txbInfoResgate").val(i.item.info_resgate);
                     $("[id$=txbRF").val(i.item.rf);
                     console.log(i.item.cep.length);
-                    $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8 , '0') : i.item.cep);
+                    $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8, '0') : i.item.cep);
                 },
                 minLength: 1 //This is the Char length of inputTextBox    
 
@@ -424,16 +433,9 @@
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12 form-group">
                             <label>
-                                Procedência</label>
-                            <asp:DropDownList ID="ddlProcedencia" runat="server" class="form-control">
-                                <asp:ListItem Text="ESPONTÂNEA"></asp:ListItem>
-                                <asp:ListItem Text="BOMBEIRO"></asp:ListItem>
-                                <asp:ListItem Text="POLÍCIA MILITAR"></asp:ListItem>
-                                <asp:ListItem Text="GCM"></asp:ListItem>
-                                <asp:ListItem Text="METRÔ"></asp:ListItem>
-                                <asp:ListItem Text="AMA - SÉ"></asp:ListItem>
-                                <asp:ListItem Text="SAMU"></asp:ListItem>
-                                <asp:ListItem Text="AMBULÂNCIA PARTICULAR"></asp:ListItem>
+                                Resultados </label>
+                            <asp:DropDownList ID="ddlResultado" runat="server" class="form-control">
+                              
                             </asp:DropDownList>
                         </div>
                     </div>

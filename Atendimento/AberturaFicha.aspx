@@ -75,7 +75,7 @@
 
                             response($.map(data.d, function(item) {
 
-                                console.log(item.exames.length);
+                                console.log(item.dc_cor);
 
                                 return {
 
@@ -86,7 +86,7 @@
                                     prontuario: item.cd_prontuario,
                                     documento: item.nr_rg,
                                     cns: item.nr_cartao_saude,
-
+                                    tipo_paciente: item.nm_vinculo,
                                     nm_nome: item.nm_nome,
                                     dt_nascimento: item.dt_data_nascimento,
                                     idade: item.nr_idade,
@@ -126,10 +126,26 @@
 
                 select: function(e, i) {
 
+                    console.log($('#<% = rbTipoPaciente.ClientID %> input:radio'))
+                    // $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
 
-                    $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
 
-                    $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").prop('checked', true);
+                    var items = $('#<% = rbTipoPaciente.ClientID %> input:radio');
+
+
+                    for (var m = 0; m < items.length; m++) {
+
+                        if (items[m].value == i.item.tipo_paciente) {
+
+                            items[m].checked = true;
+
+                            $('input').iCheck('update');
+                            break;
+                        }
+                    }
+                    // $("input[id$=rbTipoPaciente][value='" + i.item.tipo_paciente + "']").prop('checked', true);
+
+                    // $("input[name$=type][value=" + i.item.tipo_paciente + "]").prop('checked', true).trigger('change');;
 
                     $("[id$=ddlSetor").val(i.item.setor);
                     for (var n = 0; n < i.item.exames.length; n++) {
@@ -140,6 +156,15 @@
                         el.value = opt;
 
                         $("[id$=ddlResultado").append(el);
+                    }
+                    for (var n = 0; n < i.item.exames.length; n++) {
+
+                        var opt = dateFormat(eval(i.item.exames[n].DataSistema.replace('/', 'new ').replace('/', '')));
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = opt;
+
+                        $("[id$=ddlDataResultado").append(el);
                     }
                     $("[id$=ddlRaca").val(i.item.raca);
                     $("[id$=ddlSexo").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
@@ -163,8 +188,49 @@
                     $("[id$=txbQueixa").val(i.item.queixa);
                     $("[id$=txbInfoResgate").val(i.item.info_resgate);
                     $("[id$=txbRF").val(i.item.rf);
-                    console.log(i.item.cep.length);
                     $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8, '0') : i.item.cep);
+                    //Nova variável "cep" somente com dígitos.
+                    var cep = $("[id$=txbCEP").val().replace(/\D/g, '');
+
+                    //Verifica se campo cep possui valor informado.
+                    if (cep != "") {
+
+                        //Expressão regular para validar o CEP.
+                        var validacep = /^[0-9]{8}$/;
+
+                        //Valida o formato do CEP.
+                        if (validacep.test(cep)) {
+
+                            //Preenche os campos com "..." enquanto consulta webservice.
+                            $("#<%=txbEndereco.ClientID%>").val("...");
+                            $("#<%=txbBairro.ClientID%>").val("...");
+                            $("#<%=txbMunicipio.ClientID%>").val("...");
+                            $("#<%=txbUF.ClientID%>").val("...");
+
+                            //Consulta o webservice viacep.com.br/
+                            $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+
+                                if (!("erro" in dados)) {
+                                    //Atualiza os campos com os valores da consulta.
+                                    $("#<%=txbEndereco.ClientID%>").val(dados.logradouro);
+                                    $("#<%=txbBairro.ClientID%>").val(dados.bairro);
+                                    $("#<%=txbMunicipio.ClientID%>").val(dados.localidade);
+                                    $("#<%=txbUF.ClientID%>").val(dados.uf);
+                                } //end if.
+                                else {
+                                    //CEP pesquisado não foi encontrado.
+                                    alert("CEP não encontrado.");
+                                }
+                            });
+                        } //end if.
+                        else {
+                            //cep é inválido.
+                            alert("Formato de CEP inválido.");
+                        }
+                    } //end if.
+                    else {
+                        //cep sem valor, limpa formulário
+                    }
                 },
                 minLength: 1 //This is the Char length of inputTextBox    
 
@@ -224,12 +290,13 @@
                 }
             });
             $("input").attr("autocomplete", "off");
-
+        
 
             $('input').each(function() {
+                console.log("passei");
                 var self = $(this),
-               label = self.next(),
-               label_text = label.text();
+              label = self.next(),
+              label_text = label.text();
 
                 label.remove();
 
@@ -339,9 +406,10 @@
                         <div class="col-md-2 col-sm-12 col-xs-12 form-group">
                             <label>
                                 Tipo Paciente</label>
-                            <asp:RadioButtonList ID="rbTipoPaciente"  RepeatDirection="Horizontal" runat="server" AutoPostBack="True" >
-                                <asp:ListItem  Value="M" Selected="True" >Munícipe</asp:ListItem>
-                                <asp:ListItem Value="F">Funcionário</asp:ListItem>
+                            <asp:RadioButtonList ID="rbTipoPaciente"  RepeatDirection="Horizontal" runat="server" AutoPostBack="true"  >
+                                <asp:ListItem   Value="Munícipe" >Munícipe</asp:ListItem>
+                                <asp:ListItem  Value="Servidor">Servidor</asp:ListItem>
+                                 <asp:ListItem  Value="Dependente">Dependente</asp:ListItem>
                             </asp:RadioButtonList>
                         </div>
                     </div>
@@ -428,8 +496,10 @@
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12 form-group">
                             <label>
-                                Responsável</label>
-                            <asp:TextBox ID="txbResponsavel" runat="server" class="form-control"></asp:TextBox>
+                                Data dos Resultados</label>
+                            <asp:DropDownList ID="ddlDataResultado" runat="server" class="form-control">
+                              
+                            </asp:DropDownList>
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12 form-group">
                             <label>
@@ -461,15 +531,15 @@
                             <asp:TextBox ID="txbEmail" MaxLength="100" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="row">
+                    <!--div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                             <label>
                                 Queixa</label>
                             <asp:TextBox ID="txbQueixa" runat="server" class="form-control" TextMode="MultiLine"
                                 Rows="3" required></asp:TextBox>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div-->
+                    <!--div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                             <asp:CheckBoxList runat="server" ID="chkFormaChegada" RepeatDirection="Horizontal"
                                 Height="100px" Width="100%">
@@ -486,8 +556,8 @@
                             <asp:TextBox ID="txbInfoResgate" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
-                </div>
-                <div class="x_panel">
+                </div-->
+                <!--div class="x_panel">
                     <div class="x_title">
                         <h2>
                             Encaminhamento
@@ -515,7 +585,7 @@
                 </div>
                 <div class="x_content">
                 </div>
-            </div>
+            </div-->
             <div class="container">
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">

@@ -41,7 +41,7 @@ public class InformacoesPaciente
     public string email { get; set; }
     public string cidade { get; set; }
     public string rf { get; set; }
-
+    public string nm_vinculo { get; set; }
     public List<Laboratorio> exames { get; set; }
   
     

@@ -142,7 +142,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
         be.uf = txbUF.Text;
         be.cep = txbCEP.Text;
         be.nome_pai_mae = txbPais.Text;
-        be.responsavel = txbResponsavel.Text;
+      //  be.responsavel = txbResponsavel.Text;
         be.telefone = txbTelefone.Text;
         be.telefone1 = txbTelefone1.Text;
         be.telefone2 = txbTelefone2.Text;

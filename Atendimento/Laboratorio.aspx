@@ -22,22 +22,25 @@
                 
                 <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
                 <Columns>
-                    <asp:BoundField DataField="Prontuario" HeaderText="COD PRONTUARIO" SortExpression="cd_prontuario"
+                    <asp:BoundField DataField="Prontuario" HeaderText="COD PRONTUARIO" SortExpression="Prontuario"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                         
-                    <asp:BoundField DataField="NomePaciente" HeaderText="NOME PACIENTE" SortExpression="nm_paciente"
+                    <asp:BoundField DataField="NomePaciente" HeaderText="NOME PACIENTE" SortExpression="NomePaciente"
                         ItemStyle-CssClass="hidden-md" HeaderStyle-CssClass="hidden-md" />
                         
-                    <asp:BoundField DataField="Nome" HeaderText="NOME" SortExpression="nr_quarto"
+                    <asp:BoundField DataField="Nome" HeaderText="NOME" SortExpression="Nome"
                         HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
-                        
-                    <asp:BoundField DataField="Resultado" HeaderText="RESULTADO" SortExpression="nm_especialidade"
+                        <asp:BoundField DataField="DataSistema" HeaderText="DATA RESULTADO" SortExpression="DataSistema"
+                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
+                        <asp:BoundField DataField="Nome" HeaderText="Cultura" SortExpression="Nome"
+                        ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
+                    <asp:BoundField DataField="Resultado" HeaderText="RESULTADO" SortExpression="Resultado"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                         
-                    <asp:BoundField DataField="DataNascimento" HeaderText="Data NASCIMENTO" SortExpression="cod_CID"
+                    <asp:BoundField DataField="DataNascimento" HeaderText="DATA NASCIMENTO" SortExpression="DataNascimento"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                         
-                            <asp:BoundField DataField="NomeClinica" HeaderText="Nome da Clinica" SortExpression="cd_prontuario"
+                            <asp:BoundField DataField="NomeClinica" HeaderText="Nome da Clinica" SortExpression="NomeClinica"
                         ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
                         
                   

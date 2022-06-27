@@ -36,7 +36,7 @@ public class ListaLaboratorioDAO
       ",[Nome]" +
       ",[Resultado]" +
       ",[Prontuario]" +
-  "FROM [Isolamento_Versao_2].[dbo].[Laboratorio]";
+  "FROM [Isolamento_Versao_2].[dbo].[Laboratorio] WHERE Prontuario is not null";
             try
             {
                 cnn.Open();

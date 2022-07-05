@@ -20,7 +20,7 @@ public class ListaCCIHDAO
         foreach (Paciente paciente in censo)
         {
             paciente.mdr = "MDR";
-            if(ListaLaboratorioDAO.GetPacienteLaboratorio(Int32.Parse(paciente.cd_prontuario)))
+            if (ListaCCIHMDRDAO.GetPacienteCCIH(Int32.Parse(paciente.cd_prontuario)))
             { 
                 model.Add(paciente);
             }

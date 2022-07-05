@@ -12,7 +12,7 @@
      <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    Lista de Exames de Pacientes </h2>
+                    Lista de Exames de Pacientes com MDR </h2>
                 <div class="clearfix">
                 </div>
             </div>

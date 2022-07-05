@@ -59,7 +59,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["psConnectionString"].ConnectionString;
             using (SqlCommand cmd = new SqlCommand())
             {
-                cmd.CommandText = string.Format("SELECT TOP 10 * FROM [Isolamento_Versao_2].[dbo].[Paciente] where [nome] like '{0}%'", prefixo);
+                cmd.CommandText = string.Format("SELECT  TOP 10 NomePaciente, Prontuario FROM [Isolamento_Versao_2].[dbo].[CCIH] where [NomePaciente] like '{0}%' group by NomePaciente, Prontuario", prefixo);
 
                 cmd.Connection = conn;
                 conn.Open();
@@ -70,9 +70,9 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
                     while (sdr.Read())
                     {
                         c = new InformacoesPaciente();
-                      
-                        
-                        c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["rh"]));
+
+
+                        c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["Prontuario"]));
                         
                         pacientes.Add(c);
                     }

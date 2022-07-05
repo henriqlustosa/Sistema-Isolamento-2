@@ -38,10 +38,10 @@
       <siteMapNode url="~/Controle/ListaAtendimentos.aspx" title="Lista de Exames Dia"  description="Exporta lista de exames do dia pesquisado" />
       <siteMapNode url="~/Controle/ListaAtendimentosMes.aspx" title="Lista de Exames Mês"  description="Exporta lista de exames do mês pesquisado" />
       <siteMapNode url="~/Graficos/StatusMes.aspx" title="Gráfico por Status"  description="" />
-      <siteMapNode url="~/Controle/EstatisticaSetor.aspx" title="Estatistica por Setor"  description="" />
+      <!--siteMapNode url="~/Controle/EstatisticaSetor.aspx" title="Estatistica por Setor"  description="" />
       <siteMapNode url="~/Graficos/GraficoProcedencia.aspx" title="Estatistica por Procedencia"  description="" />
       <siteMapNode url="~/Controle/ConsolidadoMesProfissional.aspx" title="Consolidado Mês Profissional"  description="" />
-      <siteMapNode url="~/Controle/ConsolidadoMesProfissionalStatus.aspx" title="Consolidado Mês Profissional e Status"  description="" />
+      <siteMapNode url="~/Controle/ConsolidadoMesProfissionalStatus.aspx" title="Consolidado Mês Profissional e Status"  description="" /-->
     </siteMapNode>
 
     <siteMapNode url="" title="Meu Perfil" roles="administrador, atendimento, administrativo" description="Páginas relácionadas ao perfil de usuário" >

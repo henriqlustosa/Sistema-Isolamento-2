@@ -46,7 +46,7 @@ public partial class Controle_ListaAtendimentos : System.Web.UI.Page
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = cnn;
-                    command.CommandText = "SELECT * FROM [Isolamento_Versao_2].[dbo].[Laboratorio] " +
+                    command.CommandText = "SELECT * FROM [Isolamento_Versao_2].[dbo].[CCIH] " +
                         "WHERE DAY(DataSistema) = " + dia + " AND MONTH(DataSistema) = " + mes + " AND YEAR(DataSistema) = " + ano;
 
                     using (SqlDataAdapter adapter = new SqlDataAdapter())

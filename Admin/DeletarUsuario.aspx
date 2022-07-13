@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="DeletarUsuario.aspx.cs" Inherits="publico_DeletarUsuario" Title="Pronto Socorro - HSPM" %>
+    CodeFile="DeletarUsuario.aspx.cs" Inherits="publico_DeletarUsuario" Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>

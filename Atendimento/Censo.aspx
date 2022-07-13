@@ -4,7 +4,8 @@
   <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
 
     <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
-
+<script src="../build/js/jspdf.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../build/js/jspdf.plugin.autotable.min.js"></script>
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
@@ -57,6 +58,12 @@
                 <EditRowStyle BackColor="#999999" />
             </asp:GridView>
         </div>
+           <div>
+       
+        <asp:ImageButton ID="ImageButton1" runat="server" Height="45px" Width="45px"   OnClientclick="salvaPlanilha();" ImageUrl="../imagens/excel.png" />
+       <asp:ImageButton ID="ImageButton2" runat="server" Height="45px" Width="45px"  OnClientclick="generate();" ImageUrl="../imagens/pdf.png" />
+        
+        </div>
     </div>
 
     <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
@@ -79,6 +86,64 @@
             });
 
         });
+          function generate() {
+
+
+	        var dataAtual = new Date();
+	        const locale = 'pt-br';
+	        var data = dataAtual.toLocaleDateString(locale);
+	        var hora = dataAtual.toLocaleTimeString(locale);
+	     
+	        
+	        
+    var doc = new jsPDF('l', 'pt');
+    var htmlstring = '';
+    var tempVarToCheckPageHeight = 0;
+    var pageHeight = 0;
+    pageHeight = doc.internal.pageSize.height;
+    specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector  
+        '#bypassme': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"  
+            return true
+        }
+    };
+    margins = {
+        top: 150,
+        bottom: 60,
+        left: 40,
+        right: 40,
+        width: 600
+    };
+    var y = 20;
+    doc.setLineWidth(2);
+    doc.text(200, y = y + 30, "Data da impressão: " + data + "  " + "Horário: " +  hora);
+    doc.autoTable({
+        html: '#<%= GridView1.ClientID %>',
+        startY: 70,
+        theme: 'grid',
+        headStyles :{fillColor : [0, 0, 0]}
+    })
+    doc.save('Arquivo'+ dataAtual.getDate() + "_" + dataAtual.getMonth() + "_" + dataAtual.getFullYear() +"_" + dataAtual.getHours() + "_" + dataAtual.getMinutes() + '.pdf');
+}
+
+ function salvaPlanilha() {
+	        var htmlPlanilha = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name></x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>' + $('#<%= GridView1.ClientID %>').html() + '</table></body></html>';
+
+	        var htmlBase64 = btoa(htmlPlanilha);
+	        var link = "data:application/vnd.ms-excel;base64," + htmlBase64;
+
+
+	        var hyperlink = document.createElement("a");
+	        hyperlink.download = "Arquivo.xls";
+	        hyperlink.href = link;
+	        hyperlink.style.display = 'none';
+
+	        document.body.appendChild(hyperlink);
+	        hyperlink.click();
+	        document.body.removeChild(hyperlink);
+	    }
+    </script>
     </script>
 </asp:Content>
 

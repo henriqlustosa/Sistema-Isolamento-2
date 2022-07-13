@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StatusMes.aspx.cs" Inherits="Graficos_StatusMes" Title="Pronto Socorro - PS" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StatusMes.aspx.cs" Inherits="Graficos_StatusMes" Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 
@@ -104,7 +104,7 @@
                         <div class="x_panel tile ">
                             <div class="x_title">
                                 <h2>
-                                    Atendimentos Diário</h2>
+                                    Exames com MDR Diário</h2>
                                 <div class="clearfix">
                                 </div>
                             </div>
@@ -197,6 +197,7 @@
                 , contentType: 'application/json; charset=utf-8'
                 , dataType: 'json'
                 , success: function(data) {
+                  
                     result = data.d;
                 }
                 , error: function(xhr, er) {

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="CadastroUsuario.aspx.cs" Inherits="Restrito_CadastroUsuario" Title="Pronto Socorro - HSPM" %>
+    CodeFile="CadastroUsuario.aspx.cs" Inherits="Restrito_CadastroUsuario" Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>

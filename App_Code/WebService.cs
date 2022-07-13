@@ -202,11 +202,10 @@ public class WebService : System.Web.Services.WebService
         {
             SqlCommand cmm = cnn.CreateCommand();
 
-            cmm.CommandText = "SELECT count(f.status_ficha) as qtd_status, s.descricao_status " +
-                                  " FROM [hspmPs].[dbo].[ficha] f, [hspmPs].[dbo].[status_ficha] s " +
-                                  " WHERE s.cod_status = f.status_ficha " +
-                                  " AND MONTH(f.dt_hr_be) = " + mes + " and YEAR(f.dt_hr_be) = " + ano +
-                                  " GROUP BY s.descricao_status";
+            cmm.CommandText = "SELECT count([NomeClinica]) " +
+      ",[NomeClinica] " +
+
+   " FROM [Isolamento_Versao_2].[dbo].[CCIH]  where MONTH([DataSistema]) = 02 and YEAR([DataSistema]) = 2022  GROUP BY NomeClinica; ";
             try
             {
                 cnn.Open();
@@ -218,7 +217,7 @@ public class WebService : System.Web.Services.WebService
                     BeStatus be = new BeStatus();
 
                     be.quantidade = dr1.GetInt32(0);
-                    be.descricao = dr1.GetString(1) + " - " + dr1.GetInt32(0);
+                    be.descricao = dr1.GetString(1);
 
                     quantidade1.Add(be.quantidade);
                     descricao1.Add(be.descricao.ToString());
@@ -346,12 +345,26 @@ public class WebService : System.Web.Services.WebService
         {
             SqlCommand cmm = cnn.CreateCommand();
 
-            cmm.CommandText = "SELECT DATEPART(DAY, dt_hr_be) AS [Day], COALESCE(COUNT(cod_ficha), 0) AS [Total Be] " +
-                             " FROM [hspmPs].[dbo].[ficha] " +
-                             " WHERE MONTH(dt_hr_be) = " + mes + " and YEAR(dt_hr_be) = " + ano +
-                             " AND status_ficha !=8 AND status_ficha !=4 " +
-                             " GROUP BY DATEPART(DAY, dt_hr_be) " +
-                             " ORDER BY DATEPART(DAY, dt_hr_be)";
+            cmm.CommandText = "select CAST(dia AS INT) AS DIA, cast(quantidade AS int) AS QUANTIDADE " +
+"FROM " +
+"(SELECT  " +
+                                  "[1],[2],[3],[4],[5],[6],[7],[8],[9],[10] " +
+                                  ",[11],[12],[13],[14],[15],[16],[17],[18],[19],[20] " +
+                                  ",[21],[22],[23],[24],[25],[26],[27],[28],[29] " +
+                                  ",[30],[31] " +
+                                  ",[TOTAL]" +
+                              " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_total_mes] " +
+                              " where BE_MONTH =02 AND BE_YEAR =2022 " +
+  " ) p " +
+
+  " UNPIVOT(quantidade for dia IN " +
+  "( [1],[2],[3],[4],[5],[6],[7],[8],[9],[10] " +
+                                 " ,[11],[12],[13],[14],[15],[16],[17],[18],[19],[20] " +
+                                 " ,[21],[22],[23],[24],[25],[26],[27],[28],[29] " +
+                                 " ,[30],[31] " +
+                                 " )) as upvt; ";
+            
+                             
             try
             {
                 cnn.Open();
@@ -382,7 +395,7 @@ public class WebService : System.Web.Services.WebService
         List<Datasets> _dataSet = new List<Datasets>();
         _dataSet.Add(new Datasets()
         {
-            label = "Evolução de atendimentos durante o Mês",
+            label = "Evolução de exames durante o Mês",
             data = total.ToArray(),
             backgroundColor = new string[] { "rgba(38, 185, 154, 0.31)" },
             borderColor = new string[] { "rgba(38, 185, 154, 0.7)" },
@@ -423,15 +436,15 @@ public class WebService : System.Web.Services.WebService
         {
             SqlCommand cmm = cnn.CreateCommand();
 
-            cmm.CommandText = "SELECT [procedencia] " +
+            cmm.CommandText = "SELECT " +
                                   ",[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]" +
                                   ",[11],[12],[13],[14],[15],[16],[17],[18],[19],[20]" +
                                   ",[21],[22],[23],[24],[25],[26],[27],[28],[29]" +
                                   ",[30],[31]" +
                                   ",[TOTAL]" +
-                              " FROM [hspmPs].[dbo].[vw_con_be_total_procedencia]" +
+                              " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_total_mes]" +
                               " where BE_MONTH = "+ mes +" AND BE_YEAR =" + ano +
-                              " and procedencia != 'ESPONTÂNEA'";
+                              " ";
             try
             {
                 cnn.Open();
@@ -573,9 +586,9 @@ public class WebService : System.Web.Services.WebService
                                   ",[21],[22],[23],[24],[25],[26],[27],[28],[29]" +
                                   ",[30],[31]" +
                                   ",[TOTAL]" +
-                              " FROM [hspmPs].[dbo].[vw_con_be_total_procedencia]" +
+                              " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_total_mes]" +
                               " where BE_MONTH = "+ mes +" AND BE_YEAR = "+ ano +
-                              " and procedencia = 'ESPONTÂNEA'";
+                              " ";
             try
             {
                 cnn.Open();
@@ -647,7 +660,7 @@ public class WebService : System.Web.Services.WebService
                                   ",[21],[22],[23],[24],[25],[26],[27],[28],[29]" +
                                   ",[30],[31]" +
                                   ",[TOTAL]" +
-                              " FROM [hspmPs].[dbo].[vw_con_be_total_mes]" +
+                              " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_total_mes]" +
                               " where BE_MONTH = "+ mes +" AND BE_YEAR =  " + ano ;
             try
             {

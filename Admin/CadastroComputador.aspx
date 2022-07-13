@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CadastroComputador.aspx.cs" Inherits="Admin_CadastroComputador" Title="Pronto Socorro - HSPM" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CadastroComputador.aspx.cs" Inherits="Admin_CadastroComputador" Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

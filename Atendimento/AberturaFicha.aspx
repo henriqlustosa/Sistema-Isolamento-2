@@ -293,7 +293,7 @@
         
 
             $('input').each(function() {
-                console.log("passei");
+               
                 var self = $(this),
               label = self.next(),
               label_text = label.text();
@@ -531,6 +531,8 @@
                             <asp:TextBox ID="txbEmail" MaxLength="100" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
+                      </div>
+                      </div>
                     <!--div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                             <label>
@@ -586,15 +588,15 @@
                 <div class="x_content">
                 </div>
             </div-->
-            <div class="container">
+            <!--div class="container">
                 <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                <!--button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
                     Imprimir</button>
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
+                <!--div class="modal fade" id="myModal" role="dialog">
+                    <!--iv class="modal-dialog">
                         <!-- Modal content-->
-                        <div class="modal-content">
+                        <!--div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">
                                     Selecione a Impressora</h4>
@@ -678,7 +680,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
 
     <script type="text/javascript">
         window.addEventListener('keydown', function(e) {

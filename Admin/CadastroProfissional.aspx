@@ -1,6 +1,6 @@
 ﻿        <%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="CadastroProfissional.aspx.cs" Inherits="Admin_CadastroProfissional"
-    Title="Pronto Socorro - HSPM" %>
+    Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />

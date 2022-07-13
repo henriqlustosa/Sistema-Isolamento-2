@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="checkout.aspx.cs" Inherits="Administrativo_checkout" Title="Pronto Socorro - HSPM" %>
+    CodeFile="checkout.aspx.cs" Inherits="Administrativo_checkout" Title="CCIH - HSPM" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 

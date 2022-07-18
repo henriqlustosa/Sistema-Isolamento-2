@@ -205,7 +205,7 @@ public class WebService : System.Web.Services.WebService
             cmm.CommandText = "SELECT count([NomeClinica]) " +
       ",[NomeClinica] " +
 
-   " FROM [Isolamento_Versao_2].[dbo].[CCIH]  where MONTH([DataSistema]) = 02 and YEAR([DataSistema]) = 2022  GROUP BY NomeClinica; ";
+   " FROM [Isolamento_Versao_2].[dbo].[CCIH]  where MONTH([DataSistema]) = "+ mes+ " and YEAR([DataSistema]) =" + ano +"  GROUP BY NomeClinica; ";
             try
             {
                 cnn.Open();
@@ -297,13 +297,17 @@ public class WebService : System.Web.Services.WebService
         {
             SqlCommand cmm = cnn.CreateCommand();
 
-            cmm.CommandText = "SELECT COUNT(s.descricao_status) AS qtd_status, s.descricao_status, " +
-                               " cast((count(f.status_ficha)*100.0)/(select COUNT(*) FROM hspmPs.dbo.ficha f INNER JOIN hspmPs.dbo.status_ficha s ON f.status_ficha = s.cod_status " +
-                               " WHERE MONTH(f.dt_hr_be) =" + mes + " and YEAR(f.dt_hr_be) = " + ano + ")as decimal(5,2)) as porcentagem " +
-                               " FROM hspmPs.dbo.ficha f INNER JOIN hspmPs.dbo.status_ficha s ON f.status_ficha = s.cod_status " +
-                               " WHERE MONTH(f.dt_hr_be) = " + mes + " and YEAR(f.dt_hr_be) = " + ano + " " +
-                               " GROUP BY s.descricao_status " +
-                               " ORDER BY qtd_status DESC";
+            cmm.CommandText = " SELECT COUNT(f.Nome) AS qtd_status, f.Nome," +
+                               " cast((count(f.Nome)*100.0)/(select COUNT(*) FROM [Isolamento_Versao_2].[dbo].[CCIH] f " +
+                                " WHERE MONTH(f.[DataSistema]) =" + mes +" and YEAR(f.[DataSistema]) =" + ano + ") as decimal(5,2)) as porcentagem " +
+                           " from [Isolamento_Versao_2].[dbo].[CCIH] f where Month(f.[DataSistema]) = "+ mes +" and YEAR(f.[DataSistema]) = " + ano + 
+                                " GROUP BY f.Nome " +
+                                " ORDER BY qtd_status DESC";
+       
+                
+                
+                
+            
             try
             {
                 cnn.Open();
@@ -354,7 +358,7 @@ public class WebService : System.Web.Services.WebService
                                   ",[30],[31] " +
                                   ",[TOTAL]" +
                               " FROM [Isolamento_Versao_2].[dbo].[vw_con_exame_total_mes] " +
-                              " where BE_MONTH =02 AND BE_YEAR =2022 " +
+                              " where BE_MONTH =" + mes + " AND BE_YEAR = " + ano +
   " ) p " +
 
   " UNPIVOT(quantidade for dia IN " +

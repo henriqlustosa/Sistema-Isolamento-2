@@ -54,7 +54,7 @@ public class ListaCCIHMDRDAO
                     exames.Clinica = dr1.GetString(4);
 
                     exames.NomeClinica = dr1.GetString(5);
-                    exames.NumeroPedido = dr1.GetDouble(6).ToString();
+                    exames.NumeroPedido = dr1.IsDBNull(6)?null: dr1.GetDouble(6).ToString();
 
                     exames.NomePaciente = dr1.GetString(7);
                     exames.DataNascimento = dr1.GetDateTime(8);

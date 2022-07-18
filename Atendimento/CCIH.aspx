@@ -9,7 +9,7 @@
     <link href="../build/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <script src="../build/js/jspdf.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="../build/js/jspdf.plugin.autotable.min.js"></script>
-        type="text/javascript"></script>
+        
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
 <div class="container">

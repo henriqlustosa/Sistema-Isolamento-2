@@ -75,7 +75,7 @@
 
                             response($.map(data.d, function(item) {
 
-                                console.log(item.dc_cor);
+                               // console.log(item.dc_cor);
 
                                 return {
 
@@ -85,7 +85,7 @@
 
                                     prontuario: item.cd_prontuario,
                                     documento: item.nr_rg,
-                                    cns: item.nr_cartao_saude,
+                                    //cns: item.nr_cartao_saude,
                                     tipo_paciente: item.nm_vinculo,
                                     nm_nome: item.nm_nome,
                                     dt_nascimento: item.dt_data_nascimento,
@@ -93,18 +93,18 @@
                                     sexo: item.in_sexo,
                                     raca: item.dc_cor,
                                     // endereco_rua: item.endereco_rua,
-                                    numero_casa: item.nr_logradouro,
-                                    complemento: item.dc_complemento_logradouro,
+                                    //numero_casa: item.nr_logradouro,
+                                    //complemento: item.dc_complemento_logradouro,
                                     //bairro: item.bairro,
                                     // municipio: item.municipio,
                                     // uf: item.uf,
-                                    cep: item.cd_cep,
+                                   // cep: item.cd_cep,
                                     nome_pai_mae: item.nm_mae,
                                     // responsavel: item.responsavel,
-                                    telefone: item.nr_ddd_fone + item.nr_fone,
-                                    telefone1: item.nr_ddd_fone_recado + item.nr_fone_recado,
+                                    //telefone: item.nr_ddd_fone + item.nr_fone,
+                                    //telefone1: item.nr_ddd_fone_recado + item.nr_fone_recado,
                                     //telefone2: item.telefone2,
-                                    email: item.email,
+                                    //email: item.email,
                                     exames: item.exames,
                                     /* procedencia: item.procedencia,
                                     informacao_complementar: item.informacao_complementar,
@@ -126,7 +126,7 @@
 
                 select: function(e, i) {
 
-                    console.log($('#<% = rbTipoPaciente.ClientID %> input:radio'))
+                   // console.log($('#<% = rbTipoPaciente.ClientID %> input:radio'))
                     // $("input[id=rbTipoPaciente][value=" + i.item.tipo_paciente + "]").attr('checked', 'checked');
 
 
@@ -173,64 +173,64 @@
                     $("[id$=txbNomePaciente").val(i.item.nm_nome);
                     $("[id$=txbNascimento").val(i.item.dt_nascimento);
                     $("[id$=txbIdade").val(i.item.idade);
-                    $("[id$=txbEndereco").val(i.item.endereco_rua);
-                    $("[id$=txbNumero").val(i.item.numero_casa);
-                    $("[id$=txbComplemento").val(i.item.complemento);
-                    $("[id$=txbBairro").val(i.item.bairro);
-                    $("[id$=txbMunicipio").val(i.item.municipio);
-                    $("[id$=txbUF").val(i.item.uf);
+                   // $("[id$=txbEndereco").val(i.item.endereco_rua);
+                   // $("[id$=txbNumero").val(i.item.numero_casa);
+                   // $("[id$=txbComplemento").val(i.item.complemento);
+                   //// $("[id$=txbBairro").val(i.item.bairro);
+                   // $("[id$=txbMunicipio").val(i.item.municipio);
+                   // $("[id$=txbUF").val(i.item.uf);
                     $("[id$=txbPais").val(i.item.nome_pai_mae);
-                    $("[id$=txbResponsavel").val(i.item.responsavel);
-                    $("[id$=txbTelefone").val(i.item.telefone);
-                    $("[id$=txbTelefone1").val(i.item.telefone1);
-                    $("[id$=txbTelefone2").val(i.item.telefone2);
-                    $("[id$=txbEmail").val(i.item.email);
-                    $("[id$=txbQueixa").val(i.item.queixa);
-                    $("[id$=txbInfoResgate").val(i.item.info_resgate);
+                   // $("[id$=txbResponsavel").val(i.item.responsavel);
+                   // $("[id$=txbTelefone").val(i.item.telefone);
+                    //$("[id$=txbTelefone1").val(i.item.telefone1);
+                   // $("[id$=txbTelefone2").val(i.item.telefone2);
+                   // $("[id$=txbEmail").val(i.item.email);
+                   // $("[id$=txbQueixa").val(i.item.queixa);
+                   // $("[id$=txbInfoResgate").val(i.item.info_resgate);
                     $("[id$=txbRF").val(i.item.rf);
-                    $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8, '0') : i.item.cep);
+                   // $("[id$=txbCEP").val((i.item.cep.length == 7) ? i.item.cep.padStart(8, '0') : i.item.cep);
                     //Nova variável "cep" somente com dígitos.
-                    var cep = $("[id$=txbCEP").val().replace(/\D/g, '');
+                    //var cep = $("[id$=txbCEP").val().replace(/\D/g, '');
 
                     //Verifica se campo cep possui valor informado.
-                    if (cep != "") {
+                    //if (cep != "") {
 
                         //Expressão regular para validar o CEP.
-                        var validacep = /^[0-9]{8}$/;
+                      //  var validacep = /^[0-9]{8}$/;
 
                         //Valida o formato do CEP.
-                        if (validacep.test(cep)) {
+                      //  if (validacep.test(cep)) {
 
                             //Preenche os campos com "..." enquanto consulta webservice.
-                            $("#<%=txbEndereco.ClientID%>").val("...");
-                            $("#<%=txbBairro.ClientID%>").val("...");
-                            $("#<%=txbMunicipio.ClientID%>").val("...");
-                            $("#<%=txbUF.ClientID%>").val("...");
+                         //   $("#<%=txbEndereco.ClientID%>").val("...");
+                          //  $("#<%=txbBairro.ClientID%>").val("...");
+                          //  $("#<%=txbMunicipio.ClientID%>").val("...");
+                          //  $("#<%=txbUF.ClientID%>").val("...");
 
                             //Consulta o webservice viacep.com.br/
-                            $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+                          //  $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
 
-                                if (!("erro" in dados)) {
+                            //    if (!("erro" in dados)) {
                                     //Atualiza os campos com os valores da consulta.
-                                    $("#<%=txbEndereco.ClientID%>").val(dados.logradouro);
-                                    $("#<%=txbBairro.ClientID%>").val(dados.bairro);
-                                    $("#<%=txbMunicipio.ClientID%>").val(dados.localidade);
-                                    $("#<%=txbUF.ClientID%>").val(dados.uf);
-                                } //end if.
-                                else {
-                                    //CEP pesquisado não foi encontrado.
-                                    alert("CEP não encontrado.");
-                                }
-                            });
-                        } //end if.
-                        else {
+                           //         $("#<%=txbEndereco.ClientID%>").val(dados.logradouro);
+                           //         $("#<%=txbBairro.ClientID%>").val(dados.bairro);
+                           //         $("#<%=txbMunicipio.ClientID%>").val(dados.localidade);
+                           //         $("#<%=txbUF.ClientID%>").val(dados.uf);
+                          //      } //end if.
+                          ///      else {
+                          //          //CEP pesquisado não foi encontrado.
+                          //          alert("CEP não encontrado.");
+                         //       }
+                         //   });
+                       // } //end if.
+                       // else {
                             //cep é inválido.
-                            alert("Formato de CEP inválido.");
-                        }
-                    } //end if.
-                    else {
-                        //cep sem valor, limpa formulário
-                    }
+                        //    alert("Formato de CEP inválido.");
+                     //   }
+                   // } //end if.
+                  //  else {
+                  //      //cep sem valor, limpa formulário
+                  //  }
                 },
                 minLength: 1 //This is the Char length of inputTextBox    
 
@@ -245,50 +245,50 @@
 
 
             //Quando o campo cep perde o foco.
-            $("#<%=txbCEP.ClientID%>").blur(function() {
+          //  $("#<%=txbCEP.ClientID%>").blur(function() {
                 //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
+           //     var cep = $(this).val().replace(/\D/g, '');
 
                 //Verifica se campo cep possui valor informado.
-                if (cep != "") {
+           //     if (cep != "") {
 
                     //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
+            //        var validacep = /^[0-9]{8}$/;
 
-                    //Valida o formato do CEP.
-                    if (validacep.test(cep)) {
+            //        //Valida o formato do CEP.
+             //       if (validacep.test(cep)) {
 
                         //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#<%=txbEndereco.ClientID%>").val("...");
-                        $("#<%=txbBairro.ClientID%>").val("...");
-                        $("#<%=txbMunicipio.ClientID%>").val("...");
-                        $("#<%=txbUF.ClientID%>").val("...");
+              //          $("#<%=txbEndereco.ClientID%>").val("...");
+               //         $("#<%=txbBairro.ClientID%>").val("...");
+               //         $("#<%=txbMunicipio.ClientID%>").val("...");
+               //         $("#<%=txbUF.ClientID%>").val("...");
 
                         //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+                  //      $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
 
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#<%=txbEndereco.ClientID%>").val(dados.logradouro);
-                                $("#<%=txbBairro.ClientID%>").val(dados.bairro);
-                                $("#<%=txbMunicipio.ClientID%>").val(dados.localidade);
-                                $("#<%=txbUF.ClientID%>").val(dados.uf);
-                            } //end if.
-                            else {
+                     //       if (!("erro" in dados)) {
+                     //           //Atualiza os campos com os valores da consulta.
+                      //          $("#<%=txbEndereco.ClientID%>").val(dados.logradouro);
+                      ///          $("#<%=txbBairro.ClientID%>").val(dados.bairro);
+                       //         $("#<%=txbMunicipio.ClientID%>").val(dados.localidade);
+                       //         $("#<%=txbUF.ClientID%>").val(dados.uf);
+                       //     } //end if.
+                        //    else {
                                 //CEP pesquisado não foi encontrado.
-                                alert("CEP não encontrado.");
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário
-                }
-            });
+                         //       alert("CEP não encontrado.");
+                       // //    }
+                      //  });
+                  //  } //end if.
+                 //   else {
+                  //      //cep é inválido.
+                   //     alert("Formato de CEP inválido.");
+                  //  }
+                //} //end if.
+             //   else {
+             //       //cep sem valor, limpa formulário
+             //   }
+           // });
             $("input").attr("autocomplete", "off");
         
 
@@ -393,7 +393,7 @@
                                 RF</label>
                             <asp:TextBox ID="txbRF" runat="server" class="form-control numeric"></asp:TextBox>
                         </div>
-                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                        <!--div class="col-md-2 col-sm-12 col-xs-12 form-group">
                             <label>
                                 Outro Documento</label>
                             <asp:TextBox ID="txbDocumento" MaxLength="100" runat="server" class="form-control"></asp:TextBox>
@@ -402,7 +402,7 @@
                             <label>
                                 Cartão SUS</label>
                             <asp:TextBox ID="txbCNS" MaxLength="50" runat="server" class="form-control"></asp:TextBox>
-                        </div>
+                        </div-->
                         <div class="col-md-2 col-sm-12 col-xs-12 form-group">
                             <label>
                                 Tipo Paciente</label>
@@ -451,7 +451,7 @@
                         </div>
                     </div>
                     <div class="row">
-                       <div class="col-md-1 col-sm-12 col-xs-12 form-group">
+                       <!--div class="col-md-1 col-sm-12 col-xs-12 form-group">
                             <label>
                                 CEP</label>
                             <asp:TextBox ID="txbCEP" MaxLength="10" runat="server" class="form-control"></asp:TextBox>
@@ -485,7 +485,7 @@
                             <label>
                                 UF</label>
                             <asp:TextBox ID="txbUF" MaxLength="2" runat="server" class="form-control"></asp:TextBox>
-                        </div>
+                        </div-->
                      
                     </div>
                     <div class="row">
@@ -509,8 +509,10 @@
                             </asp:DropDownList>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-12 col-xs-12 form-group">
+                     </div>
+                           </div>
+                    <!--div class="row">
+                        <!--div class="col-md-2 col-sm-12 col-xs-12 form-group">
                             <label>
                                 Telefone 1</label>
                             <asp:TextBox ID="txbTelefone" MaxLength="20" runat="server" class="form-control"></asp:TextBox>

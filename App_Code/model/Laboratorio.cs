@@ -28,5 +28,7 @@ public class Laboratorio
     public string Nome { get; set; }
     public string Resultado { get; set; }
     public int Prontuario { get; set; }
-    
+
+    public string ComplementoResultado { get; set; }
+
 }

@@ -49,12 +49,12 @@ public class ListaCCIHMDRDAO
                     exames.parametroDataInicial = dr1.GetDateTime(0);
                     exames.parametroDataFinal = dr1.GetDateTime(1);
 
-                     exames.ParametroUsuarioLogado = dr1.GetDouble(2).ToString();
+                     exames.ParametroUsuarioLogado = dr1.GetInt32(2).ToString();
                     exames.DataSistema = dr1.GetDateTime(3);
                     exames.Clinica = dr1.GetString(4);
 
                     exames.NomeClinica = dr1.GetString(5);
-                    exames.NumeroPedido = dr1.IsDBNull(6)?null: dr1.GetDouble(6).ToString();
+                    exames.NumeroPedido = dr1.IsDBNull(6)?null: dr1.GetInt32(6).ToString();
 
                     exames.NomePaciente = dr1.GetString(7);
                     exames.DataNascimento = dr1.GetDateTime(8);
@@ -122,7 +122,8 @@ public class ListaCCIHMDRDAO
       ",[Nome]" +
       ",[Resultado]" +
       ",[Prontuario]" +
-  "FROM [Isolamento_Versao_2].[dbo].[CCIH] where prontuario =" + _cod_prontuario;
+       ",[ComplementoResultado]" +
+  "FROM [Isolamento_Versao_2].[dbo].[CCIH] where prontuario =" + _cod_prontuario + "order by DataSistema desc";
             try
             {
                 cnn.Open();
@@ -135,18 +136,19 @@ public class ListaCCIHMDRDAO
                     exames.parametroDataInicial = dr1.GetDateTime(0);
                     exames.parametroDataFinal = dr1.GetDateTime(1);
 
-                    exames.ParametroUsuarioLogado = dr1.GetDouble(2).ToString();
+                    exames.ParametroUsuarioLogado = dr1.GetInt32(2).ToString();
                     exames.DataSistema = dr1.GetDateTime(3);
                     exames.Clinica = dr1.GetString(4);
 
                     exames.NomeClinica = dr1.GetString(5);
-                    exames.NumeroPedido = dr1.GetDouble(6).ToString();
+                    exames.NumeroPedido = dr1.GetInt32(6).ToString();
 
                     exames.NomePaciente = dr1.GetString(7);
                     exames.DataNascimento = dr1.GetDateTime(8);
                     exames.Nome = dr1.GetString(9);
                     exames.Resultado = dr1.GetString(10);
                     exames.Prontuario = dr1.GetInt32(11);
+                    exames.ComplementoResultado = dr1.IsDBNull(12) ? null : dr1.GetString(12);
                     lista.Add(exames);
                 }
             }
@@ -155,7 +157,7 @@ public class ListaCCIHMDRDAO
                 string error = ex.Message;
             }
         }
-        return lista;
+       return lista;
 
     }
 }

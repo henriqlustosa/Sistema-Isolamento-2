@@ -112,27 +112,28 @@ public class ConsolidadosDAO
                     dt.Columns.Add(i.ToString(), typeof(int));
                 }
             }
-        }
 
-        if (new[] { 2 }.Contains(mes))
-        {
-            for (int i = 1; i <= 28; i++)
+
+            else if (new[] { 2 }.Contains(mes))
             {
-                dt.Columns.Add(i.ToString(), typeof(int));
+                for (int i = 1; i <= 28; i++)
+                {
+                    dt.Columns.Add(i.ToString(), typeof(int));
+                }
             }
-        }
-        else if (new[] { 1, 3, 5, 7, 8, 10, 12 }.Contains(mes))
-        {
-            for (int i = 1; i <= 31; i++)
+            else if (new[] { 1, 3, 5, 7, 8, 10, 12 }.Contains(mes))
             {
-                dt.Columns.Add(i.ToString(), typeof(int));
+                for (int i = 1; i <= 31; i++)
+                {
+                    dt.Columns.Add(i.ToString(), typeof(int));
+                }
             }
-        }
-        else if (new[] { 4, 6, 9, 11 }.Contains(mes))
-        {
-            for (int i = 1; i <= 30; i++)
+            else if (new[] { 4, 6, 9, 11 }.Contains(mes))
             {
-                dt.Columns.Add(i.ToString(), typeof(int));
+                for (int i = 1; i <= 30; i++)
+                {
+                    dt.Columns.Add(i.ToString(), typeof(int));
+                }
             }
         }
         dt.Columns.Add("Total", typeof(int));

@@ -36,7 +36,7 @@ public class ListaCCIHMDRDAO
       ",[Nome]" +
       ",[Resultado]" +
       ",[Prontuario]" +
-  "FROM [Isolamento_Versao_2].[dbo].[CCIH]  ";
+  "FROM [Isolamento_Versao_2].[dbo].[CCIH] where [Ativo] = 'A' ";
             try
             {
                 cnn.Open();
@@ -49,7 +49,7 @@ public class ListaCCIHMDRDAO
                     exames.parametroDataInicial = dr1.GetDateTime(0);
                     exames.parametroDataFinal = dr1.GetDateTime(1);
 
-                     exames.ParametroUsuarioLogado = dr1.GetInt32(2).ToString();
+                     exames.ParametroUsuarioLogado = dr1.GetString(2);
                     exames.DataSistema = dr1.GetDateTime(3);
                     exames.Clinica = dr1.GetString(4);
 
@@ -82,7 +82,7 @@ public class ListaCCIHMDRDAO
             cmm.CommandText = "SELECT [Prontuario] " +
 
                               "FROM [Isolamento_Versao_2].[dbo].[CCIH] " +
-                              "WHERE Prontuario = " + _cod_laboratorio + " group by NomePaciente, Prontuario ";
+                              "WHERE Prontuario = " + _cod_laboratorio + "and  [Ativo] = 'A' group by NomePaciente, Prontuario ";
             try
             {
                 cnn.Open();
@@ -123,7 +123,7 @@ public class ListaCCIHMDRDAO
       ",[Resultado]" +
       ",[Prontuario]" +
        ",[ComplementoResultado]" +
-  "FROM [Isolamento_Versao_2].[dbo].[CCIH] where prontuario =" + _cod_prontuario + "order by DataSistema desc";
+  "FROM [Isolamento_Versao_2].[dbo].[CCIH] where prontuario =" + _cod_prontuario + " and [Ativo] = 'A' order by DataSistema desc";
             try
             {
                 cnn.Open();
@@ -136,7 +136,7 @@ public class ListaCCIHMDRDAO
                     exames.parametroDataInicial = dr1.GetDateTime(0);
                     exames.parametroDataFinal = dr1.GetDateTime(1);
 
-                    exames.ParametroUsuarioLogado = dr1.GetInt32(2).ToString();
+                    exames.ParametroUsuarioLogado = dr1.GetString(2);
                     exames.DataSistema = dr1.GetDateTime(3);
                     exames.Clinica = dr1.GetString(4);
 

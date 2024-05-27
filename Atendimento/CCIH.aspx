@@ -145,7 +145,7 @@
 
                                 <asp:BoundField DataField="NomePaciente" HeaderText="Paciente" SortExpression="nm_paciente"
                                     ItemStyle-CssClass="hidden-md" HeaderStyle-CssClass="hidden-md" />
-                                <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema" DataFormatString="{0:MM/dd/yyyy}"
+                                <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema" DataFormatString="{0:dd/MM/yyyy}"
                                     ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
 
                                 <asp:BoundField DataField="Resultado" HeaderText="Resultados" SortExpression="Resultado"

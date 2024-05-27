@@ -69,7 +69,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["psConnectionString"].ConnectionString;
             using (SqlCommand cmd = new SqlCommand())
             {
-                cmd.CommandText = string.Format("SELECT  TOP 10 NomePaciente, Prontuario FROM [Isolamento_Versao_2].[dbo].[CCIH] where [NomePaciente] like '{0}%' group by NomePaciente, Prontuario ", prefixo);
+                cmd.CommandText = string.Format("SELECT  TOP 10 NomePaciente, Prontuario FROM [Isolamento_Versao_2].[dbo].[CCIH] where [NomePaciente] like '{0}%' and [Ativo] = 'A' group by NomePaciente, Prontuario ", prefixo);
 
                 cmd.Connection = conn;
                 conn.Open();

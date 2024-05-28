@@ -63,6 +63,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
 
     public static List<InformacoesPaciente> GetNomeDePacientes(string prefixo)
     {
+        prefixo = prefixo.ToUpper();
         List<InformacoesPaciente> pacientes = new List<InformacoesPaciente>();
         using (SqlConnection conn = new SqlConnection())
         {
@@ -92,20 +93,69 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
         }
         return pacientes;
     }
+    [WebMethod]
+    public static List<InformacoesPaciente> GetNomeDePacientesPoRh(string prefixo)
+    {
+
+        List<InformacoesPaciente> pacientes = new List<InformacoesPaciente>();
+        using (SqlConnection conn = new SqlConnection())
+        {
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["psConnectionString"].ConnectionString;
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = string.Format("SELECT  TOP 10 NomePaciente, Prontuario FROM [Isolamento_Versao_2].[dbo].[CCIH] where CAST([Prontuario]  AS VARCHAR)  like '{0}%' and [Ativo] = 'A' group by NomePaciente, Prontuario ", prefixo);
+
+                cmd.Connection = conn;
+                conn.Open();
+                InformacoesPaciente c = null;
+
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    while (sdr.Read())
+                    {
+                        c = new InformacoesPaciente();
 
 
+                        c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["Prontuario"]));
 
-    
+                        pacientes.Add(c);
+                    }
+                }
+                conn.Close();
+            }
+        }
+        return pacientes;
+    }
 
-   
+
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        ClearInputs(Page.Controls);// limpa os textbox
+    }
+
+
 
     void ClearInputs(ControlCollection ctrls)
     {
+        // Create a dummy data row
+        List<MyData> data = new List<MyData>();
+        data.Add(new MyData { DataSistema = "No data available", Resultado = "", Nome = "", ComplementoResultado = "" });
+        GridView1.ShowFooter = false; // Optional: to use the footer for displaying no data message
+
+
+        GridView1.DataSource = data;
+        GridView1.DataBind();
         foreach (Control ctrl in ctrls)
         {
             if (ctrl is System.Web.UI.WebControls.TextBox)
                 ((System.Web.UI.WebControls.TextBox)ctrl).Text = string.Empty;
 
+            if (ctrl is CheckBoxList)
+                ((CheckBoxList)ctrl).ClearSelection();
+            if (ctrl is DropDownList)
+                ((DropDownList)ctrl).SelectedIndex = 0; 
+                 if (ctrl is RadioButtonList)
+                ((RadioButtonList)ctrl).ClearSelection();
             ClearInputs(ctrl.Controls);
         }
       

@@ -30,5 +30,7 @@ public class Laboratorio
     public int Prontuario { get; set; }
 
     public string ComplementoResultado { get; set; }
+    public string Cor { get; set; }
+    public List<InformacoesPacienteInternacao> Internacoes { get; set; }
 
 }

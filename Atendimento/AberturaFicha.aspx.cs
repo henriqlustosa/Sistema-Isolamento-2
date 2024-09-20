@@ -33,7 +33,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
            
             // Create a dummy data row
             List<MyData> data = new List<MyData> ();
-            data.Add(new MyData{ DataSistema = "No data available", Resultado = "" , Nome = "" ,ComplementoResultado = "" });
+            data.Add(new MyData{ DataSistema = "Nenhuma informação disponível", Resultado = "" , Nome = "" ,ComplementoResultado = "" , Cor = "" });
             GridView1.ShowFooter = false; // Optional: to use the footer for displaying no data message
          
 
@@ -55,6 +55,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
         public string Resultado { get; set; }
         public string Nome { get; set; }
         public string ComplementoResultado { get; set; }
+        public string Cor { get; set; }
 
 
 
@@ -116,7 +117,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
                         c = new InformacoesPaciente();
 
 
-                        c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["Prontuario"]));
+                       c = InformacoesPacienteDAO.GET(Convert.ToString(sdr["Prontuario"]));
 
                         pacientes.Add(c);
                     }
@@ -139,7 +140,7 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
     {
         // Create a dummy data row
         List<MyData> data = new List<MyData>();
-        data.Add(new MyData { DataSistema = "No data available", Resultado = "", Nome = "", ComplementoResultado = "" });
+        data.Add(new MyData { DataSistema = "Nenhuma informação disponível", Resultado = "", Nome = "", ComplementoResultado = "",Cor= "" });
         GridView1.ShowFooter = false; // Optional: to use the footer for displaying no data message
 
 

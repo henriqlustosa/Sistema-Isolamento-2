@@ -111,8 +111,9 @@
                                     raca: item.dc_cor,
 
                                     nome_pai_mae: item.nm_mae,
-
+                                    cor: item.cor,
                                     exames: item.exames,
+                                    internacoes: item.internacoes,
 
                                     rf: item.cd_rf_matricula
                                 }
@@ -128,88 +129,103 @@
 
                 select: function (e, i) {
 
+                    var items = $('#<%= rbTipoPaciente.ClientID %> input:radio');
 
+            items.each(function (index, element) {
+                if (element.value == i.item.tipo_paciente) {
+                    element.checked = true;
+                    $('input').iCheck('update');
+                    return false; // Break the loop
+                }
+            });
 
+            $("[id$=ddlSetor]").val(i.item.setor);
 
-                    var items = $('#<% = rbTipoPaciente.ClientID %> input:radio');
+            i.item.exames.forEach(exame => {
+                let el = $("<option></option>").text(exame.Resultado).val(exame.Resultado);
+                $("[id$=ddlResultado]").append(el);
 
+                el = $("<option></option>").text(exame.Nome).val(exame.Nome);
+                $("[id$=ddlCultura]").append(el);
 
-                    for (var m = 0; m < items.length; m++) {
+                el = $("<option></option>").text(dateFormat(eval(exame.DataSistema.replace('/', 'new ').replace('/', '')))).val(exame.DataSistema);
+                $("[id$=ddlDataResultado]").append(el);
+            });
 
-                        if (items[m].value == i.item.tipo_paciente) {
+                    let gridView = document.getElementById('<%= GridView1.ClientID %>');
 
-                            items[m].checked = true;
+                    let html = `
+<tr class="header" style="background-color:#5D7B9D;color:white;">
+    <th class="hidden-xs">Data dos Resultados</th>
+    <th class="hidden-md">Resultados</th>
+    <th class="visible-lg">Cultura</th>
+    <th class="visible-lg">Complemento</th>
+    <th class="visible-lg">Cor</th>
+</tr>`;
+                    let Internacoes = i.item.internacoes;
+                    for (let index = 0; index < i.item.exames.length; index++) {
+                        let item = i.item.exames[index];
 
-                            $('input').iCheck('update');
-                            break;
+                        let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
+                        let Item = Internacoes[index];
+
+                        let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
+                        let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+
+                        if (Item.dt_alta_medica === null) {
+                            i.item.Cor = "Laranja #ffa500";
+                            break; // Exit the loop
+                        } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
+                            i.item.Cor = "Vermelha #ff4700";
+                            break; // Exit the loop
+                        } else {
+                            i.item.Cor = "Verde #5ccd32";
+                            break; // Exit the loop
                         }
                     }
 
 
-                    $("[id$=ddlSetor").val(i.item.setor);
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = i.item.exames[n].Resultado;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlResultado").append(el);
-                    }
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = i.item.exames[n].Nome;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlCultura").append(el);
-                    }
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = dateFormat(eval(i.item.exames[n].DataSistema.replace('/', 'new ').replace('/', '')));
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlDataResultado").append(el);
-                    }
-                    var gridView = document.getElementById('<%= GridView1.ClientID %>');
-
-                    let rows = '';
-                    let html = '<tr class="header" style="background-color:#5D7B9D;color:white;">';
-                    html += '<th class="hidden-xs">Data dos Resultados</th>';
-                    html += '<th class="hidden-md">Resultados</th>';
-                    html += '<th class="visible-lg">Cultura</th>';
-                    html += '<th class="visible-lg">Complemento</th>';
-                    html += '</tr>';
-                    // Assuming data is an array of objects
                     i.item.exames.forEach(item => {
-                        var opt = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                        html += `<tr style="background-color:#f7f6f3;color:#333333;">`;
-                        html += `<td class="hidden-xs">${opt}</td>`;
-                        html += `<td class="hidden-md">${item.Resultado}</td>`;
-                        html += `<td class="visible-lg">${item.Nome}</td>`;
-                        html += `<td class="visible-lg">${item.ComplementoResultado}</td>`;
-                        html += '</tr>';
-
+                        html += `
+<tr style="background-color:#f7f6f3;color:#333333;">
+    <td class="hidden-xs">${dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')))}</td>
+    <td class="hidden-md">${item.Resultado}</td>
+    <td class="visible-lg">${item.Nome}</td>
+    <td class="visible-lg">${item.ComplementoResultado}</td>
+</tr>`;
                     });
-
                     gridView.innerHTML = html;
 
-                    $("[id$=ddlRaca").val(i.item.raca);
-                    $("[id$=ddlSexo").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
-                    $("[id$=txbProntuario").val(i.item.prontuario);
-                    $("[id$=txbDocumento").val(i.item.documento);
-                    $("[id$=txbNomePaciente").val(i.item.nm_nome);
-                    $("[id$=txbNascimento").val(i.item.dt_nascimento);
-                    $("[id$=txbIdade").val(i.item.idade);
-                    $("[id$=txbPais").val(i.item.nome_pai_mae);
+                    const colorSplit = i.item.Cor.split(' ');
+                    const colorName = colorSplit[0];
+                    const colorHex = colorSplit[1];
 
-                    $("[id$=txbRF").val(i.item.rf);
+                    switch (colorName) {
+                        case "Laranja":
+                            $("[id$=lblPatientStatus]").html("Paciente Internado com MDR.").css({ "background-color": colorHex, "color": "white" });
+                            break;
+                        case "Vermelho":
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "black" });
+                            break;
+                        case "Verde":
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
+                            break;
+                        default:
+                            $("[id$=lblPatientStatus]").html("Status: Unknown").css({ "background-color": "#808080", "color": "white" });
+                            break;
+                    }
 
+                    $("[id$=ddlRaca]").val(i.item.raca);
+                    $("[id$=ddlSexo]").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
+                    $("[id$=txbProntuario]").val(i.item.prontuario);
+                    $("[id$=txbDocumento]").val(i.item.documento);
+                    $("[id$=txbNomePaciente]").val(i.item.nm_nome);
+                    $("[id$=txbNascimento]").val(i.item.dt_nascimento);
+                    $("[id$=txbIdade]").val(i.item.idade);
+                    $("[id$=txbPais]").val(i.item.nome_pai_mae);
+                    $("[id$=txbRF]").val(i.item.rf);
                 },
-                minLength: 1 //This is the Char length of inputTextBox    
+                minLength: 1
 
             });
 
@@ -250,6 +266,7 @@
                                     nome_pai_mae: item.nm_mae,
 
                                     exames: item.exames,
+                                    internacoes: item.internacoes,
 
                                     rf: item.cd_rf_matricula
                                 }
@@ -262,95 +279,107 @@
                     });
                 },
 
-
                 select: function (e, i) {
 
+                    var items = $('#<%= rbTipoPaciente.ClientID %> input:radio');
 
-
-
-                    var items = $('#<% = rbTipoPaciente.ClientID %> input:radio');
-
-
-                    for (var m = 0; m < items.length; m++) {
-
-                        if (items[m].value == i.item.tipo_paciente) {
-
-                            items[m].checked = true;
-
+                    items.each(function (index, element) {
+                        if (element.value == i.item.tipo_paciente) {
+                            element.checked = true;
                             $('input').iCheck('update');
-                            break;
+                            return false; // Break the loop
+                        }
+                    });
+
+                    $("[id$=ddlSetor]").val(i.item.setor);
+
+                    i.item.exames.forEach(exame => {
+                        let el = $("<option></option>").text(exame.Resultado).val(exame.Resultado);
+                        $("[id$=ddlResultado]").append(el);
+
+                        el = $("<option></option>").text(exame.Nome).val(exame.Nome);
+                        $("[id$=ddlCultura]").append(el);
+
+                        el = $("<option></option>").text(dateFormat(eval(exame.DataSistema.replace('/', 'new ').replace('/', '')))).val(exame.DataSistema);
+                        $("[id$=ddlDataResultado]").append(el);
+                    });
+
+                    let gridView = document.getElementById('<%= GridView1.ClientID %>');
+
+                    let html = `
+        <tr class="header" style="background-color:#5D7B9D;color:white;">
+            <th class="hidden-xs">Data dos Resultados</th>
+            <th class="hidden-md">Resultados</th>
+            <th class="visible-lg">Cultura</th>
+            <th class="visible-lg">Complemento</th>
+            <th class="visible-lg">Cor</th>
+        </tr>`;
+                    let Internacoes = i.item.internacoes;
+                    for (let index = 0; index < i.item.exames.length; index++) {
+                        let item = i.item.exames[index];
+
+                        let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
+                        let Item = Internacoes[index];
+
+                        let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
+                        let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+
+                        if (Item.dt_alta_medica === null) {
+                            i.item.Cor = "Laranja #ffa500";
+                            break; // Exit the loop
+                        } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
+                            i.item.Cor = "Vermelha #ff4700";
+                            break; // Exit the loop
+                        } else {
+                            i.item.Cor = "Verde #5ccd32";
+                            break; // Exit the loop
                         }
                     }
 
 
-                    $("[id$=ddlSetor").val(i.item.setor);
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = i.item.exames[n].Resultado;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlResultado").append(el);
-                    }
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = i.item.exames[n].Nome;
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlCultura").append(el);
-                    }
-                    for (var n = 0; n < i.item.exames.length; n++) {
-
-                        var opt = dateFormat(eval(i.item.exames[n].DataSistema.replace('/', 'new ').replace('/', '')));
-                        var el = document.createElement("option");
-                        el.textContent = opt;
-                        el.value = opt;
-
-                        $("[id$=ddlDataResultado").append(el);
-                    }
-                    var gridView = document.getElementById('<%= GridView1.ClientID %>');
-
-                    let rows = '';
-                    let html = '<tr class="header" style="background-color:#5D7B9D;color:white;">';
-                    html += '<th class="hidden-xs">Data dos Resultados</th>';
-                    html += '<th class="hidden-md">Resultados</th>';
-                    html += '<th class="visible-lg">Cultura</th>';
-                    html += '<th class="visible-lg">Complemento</th>';
-                    html += '</tr>';
-                    // Assuming data is an array of objects
                     i.item.exames.forEach(item => {
-                        var opt = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                        html += `<tr style="background-color:#f7f6f3;color:#333333;">`;
-                        html += `<td class="hidden-xs">${opt}</td>`;
-                        html += `<td class="hidden-md">${item.Resultado}</td>`;
-                        html += `<td class="visible-lg">${item.Nome}</td>`;
-                        html += `<td class="visible-lg">${item.ComplementoResultado}</td>`;
-                        html += '</tr>';
-
+                        html += `
+        <tr style="background-color:#f7f6f3;color:#333333;">
+            <td class="hidden-xs">${dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')))}</td>
+            <td class="hidden-md">${item.Resultado}</td>
+            <td class="visible-lg">${item.Nome}</td>
+            <td class="visible-lg">${item.ComplementoResultado}</td>
+        </tr>`;
                     });
-
                     gridView.innerHTML = html;
 
-                    $("[id$=ddlRaca").val(i.item.raca);
-                    $("[id$=ddlSexo").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
-                    $("[id$=txbProntuario").val(i.item.prontuario);
-                    $("[id$=txbDocumento").val(i.item.documento);
-                    $("[id$=txbNomePaciente").val(i.item.nm_nome);
-                    $("[id$=txbNascimento").val(i.item.dt_nascimento);
-                    $("[id$=txbIdade").val(i.item.idade);
-                    $("[id$=txbPais").val(i.item.nome_pai_mae);
+                    const colorSplit = i.item.Cor.split(' ');
+                    const colorName = colorSplit[0];
+                    const colorHex = colorSplit[1];
 
-                    $("[id$=txbRF").val(i.item.rf);
+                    switch (colorName) {
+                        case "Laranja":
+                            $("[id$=lblPatientStatus]").html("Paciente Internado com MDR.").css({ "background-color": colorHex, "color": "white" });
+                            break;
+                        case "Vermelho":
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "black" });
+                            break;
+                        case "Verde":
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
+                            break;
+                        default:
+                            $("[id$=lblPatientStatus]").html("Status: Unknown").css({ "background-color": "#808080", "color": "white" });
+                            break;
+                    }
 
+                    $("[id$=ddlRaca]").val(i.item.raca);
+                    $("[id$=ddlSexo]").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
+                    $("[id$=txbProntuario]").val(i.item.prontuario);
+                    $("[id$=txbDocumento]").val(i.item.documento);
+                    $("[id$=txbNomePaciente]").val(i.item.nm_nome);
+                    $("[id$=txbNascimento]").val(i.item.dt_nascimento);
+                    $("[id$=txbIdade]").val(i.item.idade);
+                    $("[id$=txbPais]").val(i.item.nome_pai_mae);
+                    $("[id$=txbRF]").val(i.item.rf);
                 },
-                minLength: 1 //This is the Char length of inputTextBox    
+                minLength: 1
 
             });
-
-
             function dateFormat(d) {
                 return (d.getDate() + "").padStart(2, "0")
                     + "/" + ((d.getMonth() + 1) + "").padStart(2, "0")
@@ -498,17 +527,17 @@
                     <label>
                         Sexo</label>
                     <asp:DropDownList ID="ddlSexo" runat="server" AutoPostBack="true" class="form-control">
-                         <asp:ListItem>Não Informado</asp:ListItem>
+                        <asp:ListItem>Não Informado</asp:ListItem>
                         <asp:ListItem>Masculino</asp:ListItem>
                         <asp:ListItem>Feminino</asp:ListItem>
-                       
+
                     </asp:DropDownList>
                 </div>
                 <div class="col-md-2 col-sm-12 col-xs-12 form-group">
                     <label>
                         Raça/Cor</label>
                     <asp:DropDownList ID="ddlRaca" runat="server" class="form-control" AutoPostBack="true">
-                         <asp:ListItem>Não Informado</asp:ListItem>
+                        <asp:ListItem>Não Informado</asp:ListItem>
                         <asp:ListItem>Branca</asp:ListItem>
                         <asp:ListItem>Preta</asp:ListItem>
                         <asp:ListItem>Parda</asp:ListItem>
@@ -516,18 +545,34 @@
                         <asp:ListItem>Indígena</asp:ListItem>
                     </asp:DropDownList>
                 </div>
+
+            </div>
+
+            <asp:Label ID="lblPatientStatus" runat="server" Text="Status: Unknown"></asp:Label>
+            <br />
+            <!-- Legend -->
+            <div>
+                <strong>Status Legend:</strong>
+                <ul>
+                    <li><span style="background-color: green; color: white; padding: 2px 5px;">Green</span> - Stable</li>
+                    <li><span style="background-color: yellow; color: black; padding: 2px 5px;">Yellow</span> - Under Observation</li>
+                    <li><span style="background-color: red; color: white; padding: 2px 5px;">Red</span> - Critical</li>
+                </ul>
             </div>
             <div class="row">
             </div>
 
             <div>
-
+                <div>
+                    <label>
+                        Histórico de Exames</label>
+                </div>
                 <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                     CellPadding="4" ForeColor="#333333" GridLines="Horizontal" BorderColor="#e0ddd1"
                     Width="100%">
 
-                    <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
-                    <Columns>
+                    <rowstyle backcolor="#f7f6f3" forecolor="#333333" />
+                    <columns>
                         <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema"
                             ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
 
@@ -539,13 +584,15 @@
 
                         <asp:BoundField DataField="ComplementoResultado" HeaderText="Complemento" SortExpression="ComplementoResultado"
                             HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
+                        <asp:BoundField DataField="Cor" HeaderText="Cor" SortExpression="Cor"
+                            HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
 
-                    </Columns>
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <EditRowStyle BackColor="#999999" />
+                    </columns>
+                    <footerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
+                    <pagerstyle backcolor="#284775" forecolor="White" horizontalalign="Center" />
+                    <selectedrowstyle backcolor="#ffffff" font-bold="True" forecolor="#333333" />
+                    <headerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
+                    <editrowstyle backcolor="#999999" />
                 </asp:GridView>
             </div>
             <asp:Button ID="btnClear" runat="server" Text="Limpar" CssClass="red-button" OnClick="btnClear_Click" />

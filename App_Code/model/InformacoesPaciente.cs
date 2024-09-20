@@ -42,8 +42,11 @@ public class InformacoesPaciente
     public string cidade { get; set; }
     public string rf { get; set; }
     public string nm_vinculo { get; set; }
+    public string cor { get; set; }
     public List<Laboratorio> exames { get; set; }
-  
-    
-   
+    public List<InformacoesPacienteInternacao> internacoes { get; set; }
+
+
+
+
 }

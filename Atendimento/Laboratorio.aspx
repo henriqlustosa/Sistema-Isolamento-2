@@ -3,7 +3,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
  <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
+     <script src='<%= ResolveUrl("~/moment/jquery-3.7.0.js") %>' type="text/javascript"></script>
+   <script src='<%= ResolveUrl("~/moment/moment.min.js") %>' type="text/javascript"></script>
+   <script src='<%= ResolveUrl("~/moment/jquery.dataTables.min.js") %>' type="text/javascript"></script>
+   <script src='<%= ResolveUrl("~/moment/datetime.js") %>' charset="utf8" type="text/javascript"></script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
@@ -57,15 +60,17 @@
         </div>
     </div>
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
+<%--    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
 
-    <script src='<%= ResolveUrl("~/build/js/jquery.dataTables.js") %>' type="text/javascript"></script>
-
+    <script src='<%= ResolveUrl("~/build/js/jquery.dataTables.js") %>' type="text/javascript"></script>--%>
+     <script src='<%= ResolveUrl("~/build/js/bootstrap.min.js") %>' type="text/javascript"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $.noConflict();
+        // Release the jQuery variable of the second version
+      var j =jQuery.noConflict(true);
+        j(document).ready(function() {
+         
 
-            $('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
+            j('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
                 language: {
                     search: "<i class='fa fa-search' aria-hidden='true'></i>",
                     processing: "Processando...",
@@ -73,7 +78,11 @@
                     info: "Mostrando página _PAGE_ de _PAGES_",
                     infoEmpty: "Nenhum registro encontrado",
                     infoFiltered: "(filtrado de _MAX_ registros no total)"
-                }
+                },
+                 columnDefs: [
+                    { targets: [3, 6], render: DataTable.render.moment('DD/MM/YYYY HH:mm:SS', 'DD/MM/YYYY', 'pt-br') }
+                ],
+                order: [[3, 'desc']] // Order by the first column (index 0) in ascending order
             });
 
         });

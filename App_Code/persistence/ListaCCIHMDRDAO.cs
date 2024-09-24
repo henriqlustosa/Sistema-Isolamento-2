@@ -12,12 +12,12 @@ using System.Web.UI.WebControls;
 /// </summary>
 public class ListaCCIHMDRDAO
 {
-	public ListaCCIHMDRDAO()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public ListaCCIHMDRDAO()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
     public static List<Laboratorio> ListarExamesCCIH()
     {
         var lista = new List<Laboratorio>();
@@ -25,7 +25,7 @@ public class ListaCCIHMDRDAO
         using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["psConnectionString"].ToString()))
         {
             SqlCommand cmm = cnn.CreateCommand();
-  
+
             cmm.CommandText = "SELECT  [parametroDataInicial]" +
       ",[parametroDataFinal]" +
       ",[ParametroUsuarioLogado]" +
@@ -51,12 +51,12 @@ public class ListaCCIHMDRDAO
                     exames.parametroDataInicial = dr1.GetDateTime(0);
                     exames.parametroDataFinal = dr1.GetDateTime(1);
 
-                     exames.ParametroUsuarioLogado = dr1.GetString(2);
+                    exames.ParametroUsuarioLogado = dr1.GetString(2);
                     exames.DataSistema = dr1.GetDateTime(3);
                     exames.Clinica = dr1.GetString(4);
 
                     exames.NomeClinica = dr1.GetString(5);
-                    exames.NumeroPedido = dr1.IsDBNull(6)?null: dr1.GetInt32(6).ToString();
+                    exames.NumeroPedido = dr1.IsDBNull(6) ? null : dr1.GetInt32(6).ToString();
 
                     exames.NomePaciente = dr1.GetString(7);
                     exames.DataNascimento = dr1.GetDateTime(8);
@@ -67,55 +67,56 @@ public class ListaCCIHMDRDAO
 
                     // Assuming these variables are defined elsewhere in your code
                     DateTime DataSistema = exames.DataSistema;
-                  
-                    string cor = exames.Cor;
 
-                    if (exames.Internacoes.Any(item => item.dt_alta_medica == null))
-                    {
-                        exames.Cor = "Laranja";
+                    //string cor = exames.Cor;
 
-                    }
-                    else
-                    {
-                        // Check if there is at least one item in the Internacoes collection
-                        if (exames.Internacoes.Count > 0)
-                        {
-                            bool setAllToVermelha = false;
+                    //if (exames.Internacoes.Any(item => item.dt_alta_medica == null))
+                    //{
+                    //    exames.Cor = "Laranja";
 
-                            // Parse the first item
-                            var firstItem = exames.Internacoes[0];
-                            DateTime dt_saida_paciente_first = DateTime.ParseExact(firstItem.dt_saida_paciente, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-                            DateTime dt_internacao_first = DateTime.ParseExact(firstItem.dt_internacao, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                    //}
+                    //else
+                    //{
+                    //    // Check if there is at least one item in the Internacoes collection
+                    //    if (exames.Internacoes.Count > 0)
+                    //    {
+                    //        bool setAllToVermelha = false;
 
-                            // Check the condition for the first item
-                            if (DataSistema >= dt_saida_paciente_first && DataSistema <= dt_internacao_first)
-                            {
-                                if (dt_saida_paciente_first <= DateTime.Now)
-                                {
-                                    exames.Cor = "Vermelha";
-                                    setAllToVermelha = true;
-                                }
-                            }
-                            else                             {
-                                exames.Cor = "Verde";
-                            }
+                    //        // Parse the first item
+                    //        var firstItem = exames.Internacoes[0];
+                    //        DateTime dt_saida_paciente_first = DateTime.ParseExact(firstItem.dt_saida_paciente, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                    //        DateTime dt_internacao_first = DateTime.ParseExact(firstItem.dt_internacao, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
-                            // If the first item is set to "Vermelha", set all other items to "Vermelha" as well
-                            if (setAllToVermelha)
-                            {
-                                foreach (var item in exames.Internacoes)
-                                {
-                                    exames.Cor = "Vermelha";
-                                }
-                            }
-                        }
-                    }
+                    //        // Check the condition for the first item
+                    //        if (DataSistema >= dt_saida_paciente_first && DataSistema <= dt_internacao_first)
+                    //        {
+                    //            if (dt_saida_paciente_first <= DateTime.Now)
+                    //            {
+                    //                exames.Cor = "Vermelha";
+                    //                setAllToVermelha = true;
+                    //            }
+                    //        }
+                    //        else                             {
+                    //            exames.Cor = "Verde";
+                    //        }
+
+                    //        // If the first item is set to "Vermelha", set all other items to "Vermelha" as well
+                    //        if (setAllToVermelha)
+                    //        {
+                    //            foreach (var item in exames.Internacoes)
+                    //            {
+                    //                exames.Cor = "Vermelha";
+                    //            }
+                    //        }
+                    //}
+
 
 
 
                     lista.Add(exames);
                 }
             }
+
             catch (Exception ex)
             {
                 string error = ex.Message;
@@ -209,7 +210,7 @@ public class ListaCCIHMDRDAO
                 string error = ex.Message;
             }
         }
-       return lista;
+        return lista;
 
     }
 }

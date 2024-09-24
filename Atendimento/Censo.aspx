@@ -1,11 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Censo.aspx.cs" Inherits="Atendimento_Censo" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-  <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
+   <link href="../build/css/jquery.dataTable.css" rel="stylesheet" type="text/css" />
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
-<script src="../build/js/jspdf.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../build/js/jspdf.plugin.autotable.min.js"></script>
+
+ 
+  <script src='<%= ResolveUrl("~/moment/jquery-3.7.0.js") %>' type="text/javascript"></script>
+ <script src='<%= ResolveUrl("~/moment/moment.min.js") %>' type="text/javascript"></script>
+ <script src='<%= ResolveUrl("~/moment/jquery.dataTables.min.js") %>' type="text/javascript"></script>
+ <script src='<%= ResolveUrl("~/moment/datetime.js") %>' charset="utf8" type="text/javascript"></script>
+
+<%-- <link href="../build/css/bootstrap.css" rel="stylesheet" type="text/css" />--%>
+ <script src="../build/js/jspdf.min.js" type="text/javascript"></script>
+ <script type="text/javascript" src="../build/js/jspdf.plugin.autotable.min.js"></script>
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
@@ -66,15 +73,18 @@
         </div>
     </div>
 
-    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
+  
+<%--    <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
 
-    <script src='<%= ResolveUrl("~/build/js/jquery.dataTables.js") %>' type="text/javascript"></script>
+    <script src='<%= ResolveUrl("~/build/js/jquery.dataTables.js") %>' type="text/javascript"></script>--%>
+    <script src='<%= ResolveUrl("~/build/js/bootstrap.min.js") %>' type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $.noConflict();
+        var j = jQuery.noConflict(true);
+        j(document).ready(function() {
+            
 
-            $('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
+            j('#<%= GridView1.ClientID %>').prepend($("<thead></thead>").append($(this).find("tr:first"))).DataTable({
                 language: {
                     search: "<i class='fa fa-search' aria-hidden='true'></i>",
                     processing: "Processando...",
@@ -82,7 +92,11 @@
                     info: "Mostrando página _PAGE_ de _PAGES_",
                     infoEmpty: "Nenhum registro encontrado",
                     infoFiltered: "(filtrado de _MAX_ registros no total)"
-                }
+                },
+                columnDefs: [
+                    { targets: [2, 7], render: DataTable.render.moment('DD/MM/YYYY', 'DD/MM/YYYY', 'pt-br') }
+                ],
+                order: [[1, 'asc']] // Order by the first column (index 0) in ascending order
             });
 
         });

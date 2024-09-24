@@ -4,9 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
-
-
-    <%--  <meta http-equiv="refresh" content="1000" />--%>
+<%--  <meta http-equiv="refresh" content="1000" />--%>
 
 
     <!--
@@ -238,7 +236,7 @@
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         default:
-                            $("[id$=lblPatientStatus]").html("Status: Unknown").css({ "background-color": "#808080", "color": "white" });
+                            $("[id$=lblPatientStatus]").html("Status: ").css({ "background-color": "#808080", "color": "white" });
                             break;
                     }
 
@@ -580,7 +578,7 @@
             </div>
 
             <h2>
-                <asp:Label ID="lblPatientStatus" runat="server" Text="Status: Unknown"></asp:Label>
+                <asp:Label ID="lblPatientStatus" runat="server" Text="Status: "></asp:Label>
             </h2>
             <br />
             <!-- Legend -->
@@ -610,8 +608,7 @@
 
                         <asp:BoundField DataField="ComplementoResultado" HeaderText="Complemento" SortExpression="ComplementoResultado"
                             HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
-                        <asp:BoundField DataField="Cor" HeaderText="Cor" SortExpression="Cor"
-                            HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
+                   
 
                     </Columns>
                     <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />

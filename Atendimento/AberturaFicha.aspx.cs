@@ -129,18 +129,14 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
     }
 
 
-    protected void btnClear_Click(object sender, EventArgs e)
-    {
-        ClearInputs(Page.Controls);// limpa os textbox
-    }
-
+ 
 
 
     void ClearInputs(ControlCollection ctrls)
     {
         // Create a dummy data row
         List<MyData> data = new List<MyData>();
-        data.Add(new MyData { DataSistema = "Nenhuma informação disponível", Resultado = "", Nome = "", ComplementoResultado = "",Cor= "" });
+        data.Add(new MyData { DataSistema = "Nenhuma informação disponível", Resultado = "", Nome = "", ComplementoResultado = ""});
         GridView1.ShowFooter = false; // Optional: to use the footer for displaying no data message
 
 
@@ -162,4 +158,11 @@ public partial class Atendimento_AberturaFicha : System.Web.UI.Page
       
     }
 
+
+
+
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        ClearInputs(Page.Controls);// limpa os textbox
+    }
 }

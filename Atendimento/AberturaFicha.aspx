@@ -6,7 +6,7 @@
 
 
 
-    <meta http-equiv="refresh" content="1000" />
+    <%--  <meta http-equiv="refresh" content="1000" />--%>
 
 
     <!--
@@ -16,6 +16,15 @@
 
     <script src='<%= ResolveUrl("~/vendors/iCheck/icheck.min.js") %>' type="text/javascript"></script>
         -->
+   <%-- <link href="../vendors/all.min.css" rel="stylesheet" />--%>
+
+    <!-- Bootstrap  
+ <link href="vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+ -->
+ <%--   <link href="../vendors/font-awesome/css/font-awesome.css" rel="stylesheet" />--%>
+    <link href="../vendors/fontAwesome/fontawesome-free-6.6.0-web/css/all.min.css" rel="stylesheet" />
+
+    <link href="../build/css/bootstrap.css" rel="stylesheet" />
 
     <script src='<%= ResolveUrl("~/vendors/jquery/dist/jquery.js") %>' type="text/javascript"></script>
 
@@ -28,8 +37,21 @@
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/line/blue.css" rel="stylesheet" />
     <style type="text/css">
+        .fa-trash-button:before {
+            font-family: 'Font Awesome 6 Free'; /* Ensure Font Awesome is loaded */
+            content: '\f1f8'; /* Unicode for trash icon */
+            font-weight: 900; /* Necessary for solid icons */
+            margin-right: 5px; /* Optional: spacing before icon */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Bootstrap danger button color */
+            color: white; /* White text/icon color */
+            border: none; /* Remove default border */
+        }
+
         .red-button {
-            background-color: red;
+            background-color: #e77681;
             color: white;
             border: none;
             padding: 5px 20px;
@@ -131,26 +153,26 @@
 
                     var items = $('#<%= rbTipoPaciente.ClientID %> input:radio');
 
-            items.each(function (index, element) {
-                if (element.value == i.item.tipo_paciente) {
-                    element.checked = true;
-                    $('input').iCheck('update');
-                    return false; // Break the loop
-                }
-            });
+                    items.each(function (index, element) {
+                        if (element.value == i.item.tipo_paciente) {
+                            element.checked = true;
+                            $('input').iCheck('update');
+                            return false; // Break the loop
+                        }
+                    });
 
-            $("[id$=ddlSetor]").val(i.item.setor);
+                    $("[id$=ddlSetor]").val(i.item.setor);
 
-            i.item.exames.forEach(exame => {
-                let el = $("<option></option>").text(exame.Resultado).val(exame.Resultado);
-                $("[id$=ddlResultado]").append(el);
+                    i.item.exames.forEach(exame => {
+                        let el = $("<option></option>").text(exame.Resultado).val(exame.Resultado);
+                        $("[id$=ddlResultado]").append(el);
 
-                el = $("<option></option>").text(exame.Nome).val(exame.Nome);
-                $("[id$=ddlCultura]").append(el);
+                        el = $("<option></option>").text(exame.Nome).val(exame.Nome);
+                        $("[id$=ddlCultura]").append(el);
 
-                el = $("<option></option>").text(dateFormat(eval(exame.DataSistema.replace('/', 'new ').replace('/', '')))).val(exame.DataSistema);
-                $("[id$=ddlDataResultado]").append(el);
-            });
+                        el = $("<option></option>").text(dateFormat(eval(exame.DataSistema.replace('/', 'new ').replace('/', '')))).val(exame.DataSistema);
+                        $("[id$=ddlDataResultado]").append(el);
+                    });
 
                     let gridView = document.getElementById('<%= GridView1.ClientID %>');
 
@@ -163,28 +185,33 @@
     <th class="visible-lg">Cor</th>
 </tr>`;
                     let Internacoes = i.item.internacoes;
-                    for (let index = 0; index < i.item.exames.length; index++) {
-                        let item = i.item.exames[index];
 
-                        let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                        let Item = Internacoes[index];
+                    if (Internacoes.length != 0) {
+                        for (let index = 0; index < i.item.exames.length; index++) {
+                            let item = i.item.exames[index];
 
-                        let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
-                        let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+                            let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
+                            let Item = Internacoes[index];
 
-                        if (Item.dt_alta_medica === null) {
-                            i.item.Cor = "Laranja #ffa500";
-                            break; // Exit the loop
-                        } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
-                            i.item.Cor = "Vermelha #ff4700";
-                            break; // Exit the loop
-                        } else {
-                            i.item.Cor = "Verde #5ccd32";
-                            break; // Exit the loop
+                            let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
+                            let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+
+                            if (Item.dt_alta_medica === null) {
+                                i.item.Cor = "Laranja #ffa500";
+                                break; // Exit the loop
+                            } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
+                                i.item.Cor = "Vermelha #ff4700";
+                                break; // Exit the loop
+                            } else {
+                                i.item.Cor = "Verde #5ccd32";
+                                break; // Exit the loop
+                            }
                         }
+
                     }
-
-
+                    else {
+                        i.item.Cor = "Verde #5ccd32";
+                    }
                     i.item.exames.forEach(item => {
                         html += `
 <tr style="background-color:#f7f6f3;color:#333333;">
@@ -205,7 +232,7 @@
                             $("[id$=lblPatientStatus]").html("Paciente Internado com MDR.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         case "Vermelho":
-                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "black" });
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         case "Verde":
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
@@ -315,28 +342,31 @@
             <th class="visible-lg">Cor</th>
         </tr>`;
                     let Internacoes = i.item.internacoes;
-                    for (let index = 0; index < i.item.exames.length; index++) {
-                        let item = i.item.exames[index];
+                    if (Internacoes.length != 0) {
+                        for (let index = 0; index < i.item.exames.length; index++) {
+                            let item = i.item.exames[index];
 
-                        let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                        let Item = Internacoes[index];
+                            let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
+                            let Item = Internacoes[index];
 
-                        let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
-                        let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+                            let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
+                            let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
 
-                        if (Item.dt_alta_medica === null) {
-                            i.item.Cor = "Laranja #ffa500";
-                            break; // Exit the loop
-                        } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
-                            i.item.Cor = "Vermelha #ff4700";
-                            break; // Exit the loop
-                        } else {
-                            i.item.Cor = "Verde #5ccd32";
-                            break; // Exit the loop
+                            if (Item.dt_alta_medica === null) {
+                                i.item.Cor = "Laranja #ffa500";
+                                break; // Exit the loop
+                            } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
+                                i.item.Cor = "Vermelha #ff4700";
+                                break; // Exit the loop
+                            } else {
+                                i.item.Cor = "Verde #5ccd32";
+                                break; // Exit the loop
+                            }
                         }
                     }
-
-
+                    else {
+                        i.item.Cor = "Verde #5ccd32";
+                    }
                     i.item.exames.forEach(item => {
                         html += `
         <tr style="background-color:#f7f6f3;color:#333333;">
@@ -363,7 +393,7 @@
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         default:
-                            $("[id$=lblPatientStatus]").html("Status: Unknown").css({ "background-color": "#808080", "color": "white" });
+                            $("[id$=lblPatientStatus]").html("Status: ").css({ "background-color": "#808080", "color": "white" });
                             break;
                     }
 
@@ -472,7 +502,8 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="Server">
-
+    <!-- ScriptManager should be placed here -->
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="container">
         <div class="x_panel">
             <div class="x_title">
@@ -548,17 +579,12 @@
 
             </div>
 
-            <asp:Label ID="lblPatientStatus" runat="server" Text="Status: Unknown"></asp:Label>
+            <h2>
+                <asp:Label ID="lblPatientStatus" runat="server" Text="Status: Unknown"></asp:Label>
+            </h2>
             <br />
             <!-- Legend -->
-            <div>
-                <strong>Status Legend:</strong>
-                <ul>
-                    <li><span style="background-color: green; color: white; padding: 2px 5px;">Green</span> - Stable</li>
-                    <li><span style="background-color: yellow; color: black; padding: 2px 5px;">Yellow</span> - Under Observation</li>
-                    <li><span style="background-color: red; color: white; padding: 2px 5px;">Red</span> - Critical</li>
-                </ul>
-            </div>
+
             <div class="row">
             </div>
 
@@ -571,8 +597,8 @@
                     CellPadding="4" ForeColor="#333333" GridLines="Horizontal" BorderColor="#e0ddd1"
                     Width="100%">
 
-                    <rowstyle backcolor="#f7f6f3" forecolor="#333333" />
-                    <columns>
+                    <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
+                    <Columns>
                         <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema"
                             ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
 
@@ -587,16 +613,35 @@
                         <asp:BoundField DataField="Cor" HeaderText="Cor" SortExpression="Cor"
                             HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
 
-                    </columns>
-                    <footerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
-                    <pagerstyle backcolor="#284775" forecolor="White" horizontalalign="Center" />
-                    <selectedrowstyle backcolor="#ffffff" font-bold="True" forecolor="#333333" />
-                    <headerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
-                    <editrowstyle backcolor="#999999" />
+                    </Columns>
+                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <SelectedRowStyle BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
+                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <EditRowStyle BackColor="#999999" />
                 </asp:GridView>
             </div>
-            <asp:Button ID="btnClear" runat="server" Text="Limpar" CssClass="red-button" OnClick="btnClear_Click" />
-        </div>
+            <%--<div>
+    <asp:Button ID="btnClear" runat="server" CssClass="btn btn-danger" OnClick="btnClear_Click" Text="" ToolTip="Limpar" />
+       <i class="fa fa-trash" title="Excluir"></i>
+</div>--%>
+
+
+            <br/>
+            <br/>
+            <div>
+                <strong>Legenda dos Status:</strong>
+                <span style="background-color: #5ccd32; color: white; padding: 2px 5px;">Verde</span> - Paciente Internado com MDR
+         <span style="background-color: #ffa500; color: white; padding: 2px 5px;">Laranja</span> - Paciente com exame de MDR expirado.
+         <span style="background-color: #ff4700; color: white; padding: 2px 5px;">Vermelho</span> - Paciente com exame de MDR ainda válido
+    
+            </div>
+            <br/>
+            <br/>
+            <div>
+   <asp:Button ID="btnClear" runat="server" Text="Limpar" CssClass="red-button" OnClick="btnClear_Click" />
+
+    </div>
+        
     </div>
 
 

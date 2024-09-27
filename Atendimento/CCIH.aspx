@@ -193,19 +193,16 @@
 
 
     <script type="text/javascript">
+        var j = jQuery.noConflict(true);
         function showModal() {
-            $('#myModal').modal('show');
+            j('#myModal').modal('show');
         }
 
         function hideModal() {
-            $('#myModal').modal('hiden');
+            j('#myModal').modal('hiden');
         }
-    </script>
+   
 
-    <script type="text/javascript">
-
-        // Release the jQuery variable of the second version
-        var j = jQuery.noConflict(true);
 
         j(document).ready(function () {
           

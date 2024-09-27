@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
-<%--  <meta http-equiv="refresh" content="1000" />--%>
+    <%--  <meta http-equiv="refresh" content="1000" />--%>
 
 
     <!--
@@ -14,12 +14,12 @@
 
     <script src='<%= ResolveUrl("~/vendors/iCheck/icheck.min.js") %>' type="text/javascript"></script>
         -->
-   <%-- <link href="../vendors/all.min.css" rel="stylesheet" />--%>
+    <%-- <link href="../vendors/all.min.css" rel="stylesheet" />--%>
 
     <!-- Bootstrap  
  <link href="vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
  -->
- <%--   <link href="../vendors/font-awesome/css/font-awesome.css" rel="stylesheet" />--%>
+    <%--   <link href="../vendors/font-awesome/css/font-awesome.css" rel="stylesheet" />--%>
     <link href="../vendors/fontAwesome/fontawesome-free-6.6.0-web/css/all.min.css" rel="stylesheet" />
 
     <link href="../build/css/bootstrap.css" rel="stylesheet" />
@@ -180,36 +180,19 @@
     <th class="hidden-md">Resultados</th>
     <th class="visible-lg">Cultura</th>
     <th class="visible-lg">Complemento</th>
-    <th class="visible-lg">Cor</th>
+  
 </tr>`;
-                    let Internacoes = i.item.internacoes;
+                    let listaDeInternacoes = i.item.internacoes;
+                    let listaDeExames = i.item.exames;
 
-                    if (Internacoes.length != 0) {
-                        for (let index = 0; index < i.item.exames.length; index++) {
-                            let item = i.item.exames[index];
 
-                            let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                            let Item = Internacoes[index];
+                    i.item.cor = GetPacienteCCIH(listaDeExames, listaDeInternacoes);
 
-                            let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
-                            let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
+                    const color = i.item.cor;
 
-                            if (Item.dt_alta_medica === null) {
-                                i.item.Cor = "Laranja #ffa500";
-                                break; // Exit the loop
-                            } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
-                                i.item.Cor = "Vermelha #ff4700";
-                                break; // Exit the loop
-                            } else {
-                                i.item.Cor = "Verde #5ccd32";
-                                break; // Exit the loop
-                            }
-                        }
 
-                    }
-                    else {
-                        i.item.Cor = "Verde #5ccd32";
-                    }
+
+
                     i.item.exames.forEach(item => {
                         html += `
 <tr style="background-color:#f7f6f3;color:#333333;">
@@ -221,7 +204,7 @@
                     });
                     gridView.innerHTML = html;
 
-                    const colorSplit = i.item.Cor.split(' ');
+                    const colorSplit = color.split(' ');
                     const colorName = colorSplit[0];
                     const colorHex = colorSplit[1];
 
@@ -249,6 +232,7 @@
                     $("[id$=txbIdade]").val(i.item.idade);
                     $("[id$=txbPais]").val(i.item.nome_pai_mae);
                     $("[id$=txbRF]").val(i.item.rf);
+                   
                 },
                 minLength: 1
 
@@ -337,34 +321,15 @@
             <th class="hidden-md">Resultados</th>
             <th class="visible-lg">Cultura</th>
             <th class="visible-lg">Complemento</th>
-            <th class="visible-lg">Cor</th>
+         
         </tr>`;
-                    let Internacoes = i.item.internacoes;
-                    if (Internacoes.length != 0) {
-                        for (let index = 0; index < i.item.exames.length; index++) {
-                            let item = i.item.exames[index];
 
-                            let DataSistema = dateFormat(eval(item.DataSistema.replace('/', 'new ').replace('/', '')));
-                            let Item = Internacoes[index];
+                    let listaDeInternacoes = i.item.internacoes;
+                    let listaDeExames = i.item.exames;
 
-                            let dt_saida_paciente_item = Item.dt_saida_paciente ? new Date(...Item.dt_saida_paciente.split(' ')[0].split('/').reverse().concat(Item.dt_saida_paciente.split(' ')[1].split(':'))) : null;
-                            let dt_internacao_item = Item.dt_internacao ? new Date(...Item.dt_internacao.split(' ')[0].split('/').reverse().concat(Item.dt_internacao.split(' ')[1].split(':'))) : null;
 
-                            if (Item.dt_alta_medica === null) {
-                                i.item.Cor = "Laranja #ffa500";
-                                break; // Exit the loop
-                            } else if (DataSistema >= dt_saida_paciente_item && DataSistema <= dt_internacao_item) {
-                                i.item.Cor = "Vermelha #ff4700";
-                                break; // Exit the loop
-                            } else {
-                                i.item.Cor = "Verde #5ccd32";
-                                break; // Exit the loop
-                            }
-                        }
-                    }
-                    else {
-                        i.item.Cor = "Verde #5ccd32";
-                    }
+                    i.item.cor = GetPacienteCCIH(listaDeExames, listaDeInternacoes);
+                    const color = i.item.cor;
                     i.item.exames.forEach(item => {
                         html += `
         <tr style="background-color:#f7f6f3;color:#333333;">
@@ -376,7 +341,7 @@
                     });
                     gridView.innerHTML = html;
 
-                    const colorSplit = i.item.Cor.split(' ');
+                    const colorSplit = color.split(' ');
                     const colorName = colorSplit[0];
                     const colorHex = colorSplit[1];
 
@@ -408,6 +373,189 @@
                 minLength: 1
 
             });
+            function parseAspNetDate(aspNetDateStr) {
+                // Extract the timestamp from the string
+                const timestamp = parseInt(aspNetDateStr.replace(/\/Date\((\d+)\)\//, '$1'), 10);
+
+                // Create a new Date object using the timestamp
+                return new Date(timestamp);
+            }
+            function Regra(itemExame, listaDeInternacoes) {
+                let index = 0;
+                let status = false;
+                let status_descricao = "";
+                let DataDeRecorte = new Date(2019, 0, 1); // January 1, 2019
+                let DataSistema = parseAspNetDate(itemExame.DataSistema);
+
+                if (DataSistema < DataDeRecorte || !listaDeInternacoes || listaDeInternacoes.length === 0) {
+                    return false;
+                }
+
+                try {
+
+
+                    for (index = 0; index < listaDeInternacoes.length; index++) {
+                        let currentItem = listaDeInternacoes[index];
+                        let ItemAnterior = index > 0 ? listaDeInternacoes[index - 1] : null;
+                        let ItemProximo = index < listaDeInternacoes.length - 1 ? listaDeInternacoes[index + 1] : null;
+                        let dt_internacao_item_anterior = null;
+                        let dt_saida_item_add_6_months = null;
+
+                        let dt_saida_paciente_item = ParseDateTime(currentItem.dt_saida_paciente);
+
+
+                        let dt_internacao_item = ParseDateTime(currentItem.dt_internacao);
+                        DataSistema_item_add_6_months = new Date(DataSistema);
+                        DataSistema_item_add_6_months.setMonth(DataSistema.getMonth() + 6);
+
+                        if (dt_saida_paciente_item) {
+                            dt_saida_item_add_6_months = new Date(dt_saida_paciente_item);
+                            dt_saida_item_add_6_months.setMonth(dt_saida_item_add_6_months.getMonth() + 6);
+                        }
+
+                        if (ItemAnterior && ItemAnterior.dt_internacao) {
+                            dt_internacao_item_anterior = new Date(ItemAnterior.dt_internacao.split('/').reverse().join('-') + ':00');
+                        }
+
+
+
+                        // let dt_saida_item_add_6_months = dt_saida_paciente_item ? new Date(dt_saida_paciente_item.setMonth(dt_saida_paciente_item.getMonth() + 6)) : null;
+                        // let dt_internacao_item_anterior = ItemAnterior && ItemAnterior.dt_internacao ? ParseDateTime(ItemAnterior.dt_internacao) : null;
+
+                        if (listaDeInternacoes.some(internacao => !internacao.dt_alta_medica)) {
+                            status_descricao = DetermineStatusForInternedPatient(index, DataSistema, DataSistema_item_add_6_months, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
+                        } else {
+                            status_descricao = DetermineStatusForNonInternedPatient(index, DataSistema, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
+                        }
+
+                        if (status_descricao === "HA" || status_descricao === "HAN" || status_descricao === "A") {
+                            break;
+                        }
+                    }
+                } catch (ex) {
+                    let error = ex.message;
+                    console.error("Error:", error);
+                }
+
+
+                return status_descricao;
+            }
+            function ParseDateTime(dateTimeStr) {
+                if (!dateTimeStr) {
+                    return null;
+                }
+
+                // Assuming the format is "dd/MM/yyyy HH:mm"
+                const parts = dateTimeStr.split(' ');
+                const dateParts = parts[0].split('/');
+                const timeParts = parts[1].split(':');
+
+                // JavaScript Date constructor format: new Date(year, monthIndex, day, hours, minutes)
+                return new Date(
+                    parseInt(dateParts[2], 10),        // Year
+                    parseInt(dateParts[1], 10) - 1,    // Month (0-indexed)
+                    parseInt(dateParts[0], 10),        // Day
+                    parseInt(timeParts[0], 10),        // Hours
+                    parseInt(timeParts[1], 10)         // Minutes
+                );
+            }
+
+            //function ParseDateTime(dateTimeStr) {
+            //    if (!dateTimeStr) {
+            //        return null;
+            //    }
+            //    return new Date(Date.parseExact(dateTimeStr, "dd/MM/yyyy HH:mm"));
+            //}
+
+            function DetermineStatusForInternedPatient(index, DataSistema, DataSistema_item_add_6_months, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listCount) {
+                if (index === 0) {
+                    if (DataSistema >= dt_internacao_item)
+                    {
+                        return "HA"; // Paciente internado com MDR ativo 
+                    }
+                    else if ( dt_internacao_item &&
+                        DataSistema <= dt_internacao_item && DataSistema_item_add_6_months >= dt_internacao_item)
+                    {
+                        return "HAN"; // Paciente internado com MDR ativo 
+                    }
+                    else
+                    {
+                    return "I"; // Paciente com MDR inativo
+                    }
+                }
+
+                if (index === 1 && dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item &&
+                    dt_saida_item_add_6_months >= dt_internacao_item_anterior) {
+                    return "HAN"; // Paciente internado com MDR ativo e não expirado
+                }
+
+                if (index === listCount - 1 && dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item) {
+                    return "HAN"; // Paciente com MDR ativo e não expirado
+                }
+
+                if (dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item &&
+                    dt_saida_item_add_6_months >= dt_internacao_item_anterior) {
+                    return "HAN"; // Paciente com MDR ativo e não expirado
+                }
+
+                return "I"; // Paciente com MDR inativo
+            }
+
+            function DetermineStatusForNonInternedPatient(index, DataSistema, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listCount) {
+                let now = new Date();
+
+                if (index === 0 && dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item &&
+                    dt_saida_item_add_6_months >= now) {
+                    return "A"; // Paciente com MDR ativo e não expirado
+                }
+
+                if (index === listCount - 1 && dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item) {
+                    return "A"; // Paciente com MDR ativo e não expirado
+                }
+
+                if (dt_saida_paciente_item && dt_internacao_item &&
+                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item &&
+                    dt_saida_item_add_6_months >= dt_internacao_item_anterior) {
+                    return "A"; // Paciente com MDR ativo e não expirado
+                }
+
+                return "I"; // Paciente com MDR inativo
+            }
+
+
+            function GetPacienteCCIH(listaDeExames, listaDeInternacoes) {
+                try {
+                    let cor = "";
+                    let status_descricao = "";
+                    // Check if listaDeExames contains any elements before accessing the first one
+                    if (listaDeExames && listaDeExames.length > 0) {
+                        status_descricao = Regra(listaDeExames[0], listaDeInternacoes);
+                        if (status_descricao === "HA") {
+                            cor = "Laranja #ffa500";
+                        } else if (status_descricao === "A" || status_descricao === "HAN") {
+                            cor = "Vermelho #ff4700";
+                        } else if (status_descricao === "I") {
+                            cor = "Verde #5ccd32";
+                        }
+
+                    } else {
+
+                        cor = "Verde #5ccd32";
+                        // Handle the case where no exams are found
+
+                    } return cor;
+                } catch (ex) {
+                    var error = ex.message;
+                    console.error("Error:", error);
+                    cor = "Verde #5ccd32"
+                    return cor;
+                }
+            }
             function dateFormat(d) {
                 return (d.getDate() + "").padStart(2, "0")
                     + "/" + ((d.getMonth() + 1) + "").padStart(2, "0")
@@ -595,8 +743,8 @@
                     CellPadding="4" ForeColor="#333333" GridLines="Horizontal" BorderColor="#e0ddd1"
                     Width="100%">
 
-                    <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
-                    <Columns>
+                    <rowstyle backcolor="#f7f6f3" forecolor="#333333" />
+                    <columns>
                         <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema"
                             ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
 
@@ -608,13 +756,13 @@
 
                         <asp:BoundField DataField="ComplementoResultado" HeaderText="Complemento" SortExpression="ComplementoResultado"
                             HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
-                   
 
-                    </Columns>
-                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <SelectedRowStyle BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
-                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                    <EditRowStyle BackColor="#999999" />
+
+                    </columns>
+                    <footerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
+                    <selectedrowstyle backcolor="#ffffff" font-bold="True" forecolor="#333333" />
+                    <headerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
+                    <editrowstyle backcolor="#999999" />
                 </asp:GridView>
             </div>
             <%--<div>
@@ -623,32 +771,31 @@
 </div>--%>
 
 
-            <br/>
-            <br/>
+            <br />
+            <br />
             <div>
                 <strong>Legenda dos Status:</strong>
-                <span style="background-color: #5ccd32; color: white; padding: 2px 5px;">Verde</span> - Paciente Internado com MDR
-         <span style="background-color: #ffa500; color: white; padding: 2px 5px;">Laranja</span> - Paciente com exame de MDR expirado.
+                <span style="background-color: #5ccd32; color: white; padding: 2px 5px;">Verde</span> - Paciente com exame de MDR expirado
+         <span style="background-color: #ffa500; color: white; padding: 2px 5px;">Laranja</span> -  Paciente Internado com MDR
          <span style="background-color: #ff4700; color: white; padding: 2px 5px;">Vermelho</span> - Paciente com exame de MDR ainda válido
     
             </div>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <div>
-   <asp:Button ID="btnClear" runat="server" Text="Limpar" CssClass="red-button" OnClick="btnClear_Click" />
+                <asp:Button ID="btnClear" runat="server" Text="Limpar" CssClass="red-button" OnClick="btnClear_Click" />
 
-    </div>
-        
-    </div>
+            </div>
+
+        </div>
 
 
-    <script type="text/javascript">
-        window.addEventListener('keydown', function (e) {
-            var code = e.which || e.keyCode;
-            if (code == 116 || code == 13) e.preventDefault();
-            else return true;
-        });
+        <script type="text/javascript">
+            window.addEventListener('keydown', function (e) {
+                var code = e.which || e.keyCode;
+                if (code == 116 || code == 13) e.preventDefault();
+                else return true;
+            });
 
-    </script>
-
+        </script>
 </asp:Content>

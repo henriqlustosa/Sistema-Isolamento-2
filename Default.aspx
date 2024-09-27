@@ -66,7 +66,7 @@
                 <br />
 
                 <div>
-                  <p>©2022 HSPM - Hospital do Servidor Público Municipal</p>
+                  <p style="color: black;">©<%= DateTime.Now.Year %> HSPM - Hospital do Servidor Público Municipal</p>
                 </div>
               </div>
             </form>

@@ -31,6 +31,6 @@ public class Laboratorio
 
     public string ComplementoResultado { get; set; }
     public string Cor { get; set; }
+    
     public List<InformacoesPacienteInternacao> Internacoes { get; set; }
-
 }

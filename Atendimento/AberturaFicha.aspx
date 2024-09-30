@@ -344,13 +344,12 @@
                     const colorSplit = color.split(' ');
                     const colorName = colorSplit[0];
                     const colorHex = colorSplit[1];
-
                     switch (colorName) {
                         case "Laranja":
                             $("[id$=lblPatientStatus]").html("Paciente Internado com MDR.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         case "Vermelho":
-                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "black" });
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR ainda válido.").css({ "background-color": colorHex, "color": "white" });
                             break;
                         case "Verde":
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
@@ -359,6 +358,7 @@
                             $("[id$=lblPatientStatus]").html("Status: ").css({ "background-color": "#808080", "color": "white" });
                             break;
                     }
+
 
                     $("[id$=ddlRaca]").val(i.item.raca);
                     $("[id$=ddlSexo]").val(i.item.sexo == "M" ? "Masculino" : "Feminino");
@@ -400,13 +400,19 @@
                         let ItemProximo = index < listaDeInternacoes.length - 1 ? listaDeInternacoes[index + 1] : null;
                         let dt_internacao_item_anterior = null;
                         let dt_saida_item_add_6_months = null;
+                        let dt_saida_paciente_item_minus_15_days = null;
 
                         let dt_saida_paciente_item = ParseDateTime(currentItem.dt_saida_paciente);
-
-
+                     
                         let dt_internacao_item = ParseDateTime(currentItem.dt_internacao);
                         DataSistema_item_add_6_months = new Date(DataSistema);
                         DataSistema_item_add_6_months.setMonth(DataSistema.getMonth() + 6);
+                      
+
+                        if (dt_internacao_item) {
+                            dt_saida_paciente_item_minus_15_days = new Date(dt_internacao_item);
+                            dt_saida_paciente_item_minus_15_days.setDate(dt_saida_paciente_item_minus_15_days.getDate() - 15);
+                        }
 
                         if (dt_saida_paciente_item) {
                             dt_saida_item_add_6_months = new Date(dt_saida_paciente_item);
@@ -425,7 +431,7 @@
                         if (listaDeInternacoes.some(internacao => !internacao.dt_alta_medica)) {
                             status_descricao = DetermineStatusForInternedPatient(index, DataSistema, DataSistema_item_add_6_months, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
                         } else {
-                            status_descricao = DetermineStatusForNonInternedPatient(index, DataSistema, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
+                            status_descricao = DetermineStatusForNonInternedPatient(index, DataSistema, dt_saida_paciente_item_minus_15_days, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
                         }
 
                         if (status_descricao === "HA" || status_descricao === "HAN" || status_descricao === "A") {
@@ -504,13 +510,25 @@
                 return "I"; // Paciente com MDR inativo
             }
 
-            function DetermineStatusForNonInternedPatient(index, DataSistema, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listCount) {
+            function DetermineStatusForNonInternedPatient(index, DataSistema, dt_internacao_item, dt_internacao_paciente_item_minus_15_days, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listCount) {
                 let now = new Date();
 
-                if (index === 0 && dt_saida_paciente_item && dt_internacao_item &&
-                    DataSistema <= dt_saida_paciente_item && DataSistema >= dt_internacao_item &&
-                    dt_saida_item_add_6_months >= now) {
-                    return "A"; // Paciente com MDR ativo e não expirado
+
+                if (index === 0) {
+                    if (DataSistema <= dt_saida_paciente_item.Value && DataSistema >= dt_internacao_item.Value) {
+
+                        return "A"; // Paciente com MDR ativo e não expirado
+                    }
+                    else if (DataSistema <= dt_internacao_item.Value && DataSistema >= dt_internacao_paciente_item_minus_15_days.Value) {
+                        return "A"; // Paciente com MDR ativo e não expirado
+                    }
+                    else if (dt_saida_item_add_6_months >= now) {
+                        return "A"; // Paciente com MDR ativo e não expirado
+                    }
+                    else {
+                        return "I"; // Paciente com MDR inativo
+                    }
+
                 }
 
                 if (index === listCount - 1 && dt_saida_paciente_item && dt_internacao_item &&

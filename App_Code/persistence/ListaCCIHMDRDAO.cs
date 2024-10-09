@@ -381,6 +381,7 @@ public class ListaCCIHMDRDAO
             for (index = 0; index < listaDeInternacoes.Count; index++)
             {
                 var currentItem = listaDeInternacoes[index];
+                var dc_tipo_alta_medica = currentItem.dc_tipo_alta_medica;
                 var ItemAnterior = index > 0 ? listaDeInternacoes[index - 1] : null;
                 var ItemProximo = index < listaDeInternacoes.Count - 1 ? listaDeInternacoes[index + 1] : null;
 
@@ -433,7 +434,7 @@ public class ListaCCIHMDRDAO
                 }
                 else
                 {
-                    status_descricao = DetermineStatusForNonInternedPatient(index, DataSistema, dt_saida_paciente_item_minus_15_days, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.Count);
+                    status_descricao = DetermineStatusForNonInternedPatient(index, DataSistema, dt_saida_paciente_item_minus_15_days, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.Count, dc_tipo_alta_medica);
 
 
 
@@ -442,6 +443,11 @@ public class ListaCCIHMDRDAO
                 if (status_descricao == "HA" || status_descricao == "HAN")
                 {
                     break;
+                }
+                else
+                {
+                    // Set the default value for status_descricao if no condition is met
+                    status_descricao = "I";
                 }
             }
         }
@@ -517,10 +523,10 @@ public class ListaCCIHMDRDAO
             return "HAN"; // Paciente com MDR ativo e não expirado
         }
 
-        return "I"; // Paciente com MDR inativo
+        return "C"; // Paciente com MDR inativo
     }
 
-    private static string DetermineStatusForNonInternedPatient(int index, DateTime? DataSistema, DateTime? dt_internacao_paciente_item_minus_15_days, DateTime? dt_internacao_item, DateTime? dt_saida_paciente_item, DateTime? dt_saida_item_add_6_months, DateTime? dt_internacao_item_anterior, int listCount)
+    private static string DetermineStatusForNonInternedPatient(int index, DateTime? DataSistema, DateTime? dt_internacao_paciente_item_minus_15_days, DateTime? dt_internacao_item, DateTime? dt_saida_paciente_item, DateTime? dt_saida_item_add_6_months, DateTime? dt_internacao_item_anterior, int listCount, string dc_tipo_alta_medica)
     {
 
         DateTime now = DateTime.Now;
@@ -536,10 +542,20 @@ public class ListaCCIHMDRDAO
 
         if (index == 0)
         {
-            if (DataSistema <= dt_saida_paciente_item.Value && DataSistema >= dt_internacao_item.Value|| dateOnlyInternacaoItem == dateOnlySistema || dateOnlySistema == dateOnlySaidaItem)
+            if (dc_tipo_alta_medica == "OBITO +24 HORAS" || dc_tipo_alta_medica == "OBITO -24 HORAS")
             {
-
-                return "A"; // Paciente com MDR ativo e não expirado
+                return "O"; // Paciente com MDR óbito
+            }
+            if (DataSistema <= dt_saida_paciente_item.Value && DataSistema >= dt_internacao_item.Value || dateOnlyInternacaoItem == dateOnlySistema || dateOnlySistema == dateOnlySaidaItem)
+            {
+                if (dt_saida_item_add_6_months <= now)
+                {
+                    return "I"; // Paciente com MDR inativo
+                }
+                else 
+                {                  
+                    return "A"; // Paciente com MDR ativo e não expirado
+                }
             }
             else if ((DataSistema <= dt_internacao_item.Value && DataSistema >= dt_internacao_paciente_item_minus_15_days.Value)
           || dateOnlySistema == dateOnlyInternacaoItem
@@ -561,7 +577,14 @@ public class ListaCCIHMDRDAO
            DataSistema <= dt_saida_paciente_item.Value && DataSistema >= dt_internacao_item.Value || dateOnlySistema == dateOnlyInternacaoItem
           || dateOnlySistema == dateOnlySaidaItem)
         {
-            return "A"; // Paciente com MDR ativo e não expirado
+            if (dt_saida_item_add_6_months <= now)
+            {
+                return "I"; // Paciente com MDR inativo
+            }
+            else
+            {
+                return "A"; // Paciente com MDR ativo e não expirado
+            }
         }
 
         if (dt_saida_paciente_item.HasValue && dt_internacao_item.HasValue &&
@@ -571,7 +594,7 @@ public class ListaCCIHMDRDAO
         {
             return "A"; // Paciente com MDR ativo e não expirado
         }
-        return "I"; // Paciente com MDR inativo
+        return "C"; // Paciente com MDR inativo
     }
 
 

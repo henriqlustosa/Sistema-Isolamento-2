@@ -218,6 +218,9 @@
                         case "Verde":
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
                             break;
+                        case "Preto":
+                            $("[id$=lblPatientStatus]").html("Óbito.").css({ "background-color": colorHex, "color": "white" });
+                            break;
                         default:
                             $("[id$=lblPatientStatus]").html("Status: ").css({ "background-color": "#808080", "color": "white" });
                             break;
@@ -232,7 +235,7 @@
                     $("[id$=txbIdade]").val(i.item.idade);
                     $("[id$=txbPais]").val(i.item.nome_pai_mae);
                     $("[id$=txbRF]").val(i.item.rf);
-                   
+
                 },
                 minLength: 1
 
@@ -354,6 +357,12 @@
                         case "Verde":
                             $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
                             break;
+                        case "Verde":
+                            $("[id$=lblPatientStatus]").html("Paciente com exame de MDR expirado.").css({ "background-color": colorHex, "color": "white" });
+                            break;
+                        case "Preto":
+                            $("[id$=lblPatientStatus]").html("Óbito.").css({ "background-color": colorHex, "color": "white" });
+                            break;
                         default:
                             $("[id$=lblPatientStatus]").html("Status: ").css({ "background-color": "#808080", "color": "white" });
                             break;
@@ -386,7 +395,7 @@
                 let status_descricao = "";
                 let DataDeRecorte = new Date(2019, 0, 1); // January 1, 2019
                 let DataSistema = parseAspNetDate(itemExame.DataSistema);
-              
+
 
                 if (DataSistema < DataDeRecorte || !listaDeInternacoes || listaDeInternacoes.length === 0) {
                     return false;
@@ -397,25 +406,26 @@
 
                     for (index = 0; index < listaDeInternacoes.length; index++) {
                         let currentItem = listaDeInternacoes[index];
+                        let dc_tipo_alta_medica = currentItem.dc_tipo_alta_medica;
                         let ItemAnterior = index > 0 ? listaDeInternacoes[index - 1] : null;
                         let ItemProximo = index < listaDeInternacoes.length - 1 ? listaDeInternacoes[index + 1] : null;
                         let dt_internacao_item_anterior = null;
                         let dt_saida_item_add_6_months = null;
-                     
-                   
+
+
                         let dt_saida_paciente_item = ParseDateTime(currentItem.dt_saida_paciente);
-                        let dt_saida_paciente_item_minus_15_days = null;
+                  
                         let dt_internacao_item = ParseDateTime(currentItem.dt_internacao);
                         let dt_internacao_paciente_item_minus_15_days = null;
 
                         DataSistema_item_add_6_months = new Date(DataSistema);
                         DataSistema_item_add_6_months.setMonth(DataSistema.getMonth() + 6);
-                      
+
 
                         if (dt_internacao_item) {
                             dt_internacao_paciente_item_minus_15_days = new Date(dt_internacao_item);
                             dt_internacao_paciente_item_minus_15_days.setDate(dt_internacao_paciente_item_minus_15_days.getDate() - 15);
-                         
+
                         }
 
                         if (dt_saida_paciente_item != null) {
@@ -432,19 +442,23 @@
                             dt_internacao_item_minus_6_months.setDate(dt_internacao_item_minus_6_months.getMonth() - 6);
 
                         }
-                       
-                        dtInternacaoItemMinus6Months = dt_internacao_item ? new Date(dt_internacao_item.setMonth(dt_internacao_item.getMonth() - 6)) : null;
-                      
+
+
+
                         dt_internacao_item_anterior = ItemAnterior && ItemAnterior.dt_internacao ? ParseDateTime(ItemAnterior.dt_internacao) : null;
 
                         if (listaDeInternacoes.some(internacao => !internacao.dt_alta_medica)) {
                             status_descricao = determineStatusForInternedPatient(index, DataSistema, DataSistema_item_add_6_months, dt_internacao_item, dt_internacao_paciente_item_minus_15_days, dt_saida_paciente_item, dt_internacao_item_minus_6_months, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
                         } else {
-                            status_descricao = determineStatusForNonInternedPatient(index, DataSistema, dt_saida_paciente_item_minus_15_days, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length);
-                        } 
+                            status_descricao = determineStatusForNonInternedPatient(index, DataSistema, dt_internacao_paciente_item_minus_15_days, dt_internacao_item, dt_saida_paciente_item, dt_saida_item_add_6_months, dt_internacao_item_anterior, listaDeInternacoes.length, dc_tipo_alta_medica);
+                        }
 
-                        if (status_descricao === "HA" || status_descricao === "HAN" || status_descricao === "A") {
+                        if (status_descricao === "HA" || status_descricao === "HAN" || status_descricao === "A" || status_descricao === "O" || status_descricao === "I") {
                             break;
+                        }
+                        else {
+                            // Set the default value for status_descricao if no condition is met
+                            status_descricao = "I";
                         }
                     }
                 } catch (ex) {
@@ -527,10 +541,10 @@
                     return 'HAN'; // Paciente com MDR ativo e não expirado
                 }
 
-                return 'I'; // Paciente com MDR inativo
+                return 'C'; // Paciente com MDR inativo
             }
 
-            function determineStatusForNonInternedPatient(index, DataSistema, dtInternacaoPacienteItemMinus15Days, dtInternacaoItem, dtSaidaPacienteItem, dtSaidaItemAdd6Months, dtInternacaoItemAnterior, listCount) {
+            function determineStatusForNonInternedPatient(index, DataSistema, dtInternacaoPacienteItemMinus15Days, dtInternacaoItem, dtSaidaPacienteItem, dtSaidaItemAdd6Months, dtInternacaoItemAnterior, listCount, dc_tipo_alta_medica) {
                 const now = new Date();
                 const formatDate = date => date ? date.toISOString().split('T')[0] : 'No Date';
 
@@ -542,32 +556,52 @@
                 let dateOnlyInternacaoAnterior = formatDate(dtInternacaoItemAnterior);
 
                 if (index === 0) {
-                    if ((DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem) || dateOnlyInternacaoItem === dateOnlySistema || dateOnlySistema === dateOnlySaidaItem) {
+
+                    if (dc_tipo_alta_medica == "OBITO +24 HORAS" || dc_tipo_alta_medica == "OBITO -24 HORAS") {
+                        return "O"; // Paciente com MDR óbito
+                    }
+                    else if ((DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem) || dateOnlyInternacaoItem === dateOnlySistema || dateOnlySistema === dateOnlySaidaItem) {
+
+
+
+                        if (dtSaidaItemAdd6Months <= now) {
+                            return "I"; // Paciente com MDR inativo
+                        }
+                        else {
+                            return "A"; // Paciente com MDR ativo e não expirado
+                        }
+                    }
+                    else if ((DataSistema <= dtInternacaoItem && DataSistema >= dtInternacaoPacienteItemMinus15Days) ||
+                        (dateOnlySistema === dateOnlyInternacaoItem || dateOnlySistema === dateOnlyInternacaoMinus15Days)) {
                         return 'A'; // Paciente com MDR ativo e não expirado
-                    } else if ((DataSistema <= dtInternacaoItem && DataSistema >= dtInternacaoPacienteItemMinus15Days) ||
-                        dateOnlySistema === dateOnlyInternacaoItem || dateOnlySistema === dateOnlyInternacaoMinus15Days) {
+                    }
+                    else if (dtSaidaItemAdd6Months >= now) {
                         return 'A'; // Paciente com MDR ativo e não expirado
-                    } else if (dtSaidaItemAdd6Months >= now) {
-                        return 'A'; // Paciente com MDR ativo e não expirado
-                    } else {
+                    }
+                    else {
                         return 'I'; // Paciente com MDR inativo
                     }
                 }
 
                 if (index === listCount - 1 && dtSaidaPacienteItem && dtInternacaoItem &&
-                    (DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem || dateOnlySistema === dateOnlyInternacaoItem ||
-                        dateOnlySistema === dateOnlySaidaItem)) {
-                    return 'A'; // Paciente com MDR ativo e não expirado
+                    (DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem) || (dateOnlySistema === dateOnlyInternacaoItem) ||
+                    (dateOnlySistema === dateOnlySaidaItem)) {
+                    if (dtSaidaItemAdd6Months <= now) {
+                        return "I"; // Paciente com MDR inativo
+                    }
+                    else {
+                        return "A"; // Paciente com MDR ativo e não expirado
+                    }
                 }
 
-                if (dtSaidaPacienteItem && dtInternacaoItem &&
-                    (DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem &&
+                if ((dtSaidaPacienteItem && dtInternacaoItem &&
+                    (DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem ) ||
                         dtSaidaItemAdd6Months >= dtInternacaoItemAnterior || dateOnlySistema === dateOnlyInternacaoItem ||
                         dateOnlySistema === dateOnlySaidaItem || dateOnlySaidaAdd6Months === dateOnlyInternacaoAnterior)) {
                     return 'A'; // Paciente com MDR ativo e não expirado
                 }
 
-                return 'I'; // Paciente com MDR inativo
+                return 'C'; // Paciente com MDR inativo
             }
 
 
@@ -585,6 +619,9 @@
                             cor = "Vermelho #ff4700";
                         } else if (status_descricao === "I") {
                             cor = "Verde #5ccd32";
+                        }
+                        else if (status_descricao === "O") {
+                            cor = "Preto #000000";
                         }
 
                     } else {
@@ -787,8 +824,8 @@
                     CellPadding="4" ForeColor="#333333" GridLines="Horizontal" BorderColor="#e0ddd1"
                     Width="100%">
 
-                    <rowstyle backcolor="#f7f6f3" forecolor="#333333" />
-                    <columns>
+                    <RowStyle BackColor="#f7f6f3" ForeColor="#333333" />
+                    <Columns>
                         <asp:BoundField DataField="DataSistema" HeaderText="Data dos Resultados" SortExpression="DataSistema"
                             ItemStyle-CssClass="hidden-xs" HeaderStyle-CssClass="hidden-xs" />
 
@@ -802,11 +839,11 @@
                             HeaderStyle-CssClass="visible-lg" ItemStyle-CssClass="visible-lg" />
 
 
-                    </columns>
-                    <footerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
-                    <selectedrowstyle backcolor="#ffffff" font-bold="True" forecolor="#333333" />
-                    <headerstyle backcolor="#5D7B9D" font-bold="True" forecolor="White" />
-                    <editrowstyle backcolor="#999999" />
+                    </Columns>
+                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <SelectedRowStyle BackColor="#ffffff" Font-Bold="True" ForeColor="#333333" />
+                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <EditRowStyle BackColor="#999999" />
                 </asp:GridView>
             </div>
             <%--<div>
@@ -822,7 +859,7 @@
                 <span style="background-color: #5ccd32; color: white; padding: 2px 5px;">Verde</span> - Paciente com exame de MDR expirado
          <span style="background-color: #ffa500; color: white; padding: 2px 5px;">Laranja</span> -  Paciente Internado com MDR
          <span style="background-color: #ff4700; color: white; padding: 2px 5px;">Vermelho</span> - Paciente com exame de MDR ainda válido
-    
+      <span style="background-color: #000000; color: white; padding: 2px 5px;">Preto</span> - Óbito
             </div>
             <br />
             <br />

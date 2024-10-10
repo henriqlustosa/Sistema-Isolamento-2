@@ -547,7 +547,7 @@
             function determineStatusForNonInternedPatient(index, DataSistema, dtInternacaoPacienteItemMinus15Days, dtInternacaoItem, dtSaidaPacienteItem, dtSaidaItemAdd6Months, dtInternacaoItemAnterior, listCount, dc_tipo_alta_medica) {
                 const now = new Date();
                 const formatDate = date => date ? date.toISOString().split('T')[0] : 'No Date';
-
+                let dateOnlyNow = formatDate(now);
                 let dateOnlySistema = formatDate(DataSistema);
                 let dateOnlyInternacaoItem = formatDate(dtInternacaoItem);
                 let dateOnlyInternacaoMinus15Days = formatDate(dtInternacaoPacienteItemMinus15Days);
@@ -559,6 +559,15 @@
 
                     if (dc_tipo_alta_medica == "OBITO +24 HORAS" || dc_tipo_alta_medica == "OBITO -24 HORAS") {
                         return "O"; // Paciente com MDR óbito
+                    }
+                    else if (DataSistema >= dtSaidaPacienteItem )
+                    {
+                        if (dtSaidaItemAdd6Months <= now || dateOnlySaidaAdd6Months === dateOnlyNow) {
+                            return "I"; // Paciente com MDR inativo
+                        }
+                        else {
+                            return "A"; // Paciente com MDR ativo e não expirado
+                        }
                     }
                     else if ((DataSistema <= dtSaidaPacienteItem && DataSistema >= dtInternacaoItem) || dateOnlyInternacaoItem === dateOnlySistema || dateOnlySistema === dateOnlySaidaItem) {
 

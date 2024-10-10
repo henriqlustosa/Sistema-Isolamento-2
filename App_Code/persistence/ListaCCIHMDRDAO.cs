@@ -529,8 +529,9 @@ public class ListaCCIHMDRDAO
     private static string DetermineStatusForNonInternedPatient(int index, DateTime? DataSistema, DateTime? dt_internacao_paciente_item_minus_15_days, DateTime? dt_internacao_item, DateTime? dt_saida_paciente_item, DateTime? dt_saida_item_add_6_months, DateTime? dt_internacao_item_anterior, int listCount, string dc_tipo_alta_medica)
     {
 
-        DateTime now = DateTime.Now;
+        DateTime? now = DateTime.Now;
         // Handling nullable DateTime and converting to "yyyy-MM-dd" if it has a value
+        string dateOnlyNow = now.HasValue ? now.Value.ToString("yyyy-MM-dd") : "No Date";
         string dateOnlySistema = DataSistema.HasValue ? DataSistema.Value.ToString("yyyy-MM-dd") : "No Date";
         string dateOnlyInternacaoItem = dt_internacao_item.HasValue ? dt_internacao_item.Value.ToString("yyyy-MM-dd") : "No Date";
         string dateOnlyInternacaoMinus15Days = dt_internacao_paciente_item_minus_15_days.HasValue ? dt_internacao_paciente_item_minus_15_days.Value.ToString("yyyy-MM-dd") : "No Date";
@@ -545,6 +546,17 @@ public class ListaCCIHMDRDAO
             if (dc_tipo_alta_medica == "OBITO +24 HORAS" || dc_tipo_alta_medica == "OBITO -24 HORAS")
             {
                 return "O"; // Paciente com MDR óbito
+            }
+            else if (DataSistema >= dt_saida_paciente_item)
+            {
+                if (dt_saida_item_add_6_months <= now || dateOnlySaidaAdd6Months == dateOnlyNow)
+                {
+                    return "I"; // Paciente com MDR inativo
+                }
+                else
+                {
+                    return "A"; // Paciente com MDR ativo e não expirado
+                }
             }
             if (DataSistema <= dt_saida_paciente_item.Value && DataSistema >= dt_internacao_item.Value || dateOnlyInternacaoItem == dateOnlySistema || dateOnlySistema == dateOnlySaidaItem)
             {

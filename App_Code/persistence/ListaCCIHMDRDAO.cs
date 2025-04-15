@@ -440,7 +440,7 @@ public class ListaCCIHMDRDAO
 
                 }
 
-                if (status_descricao == "HA" || status_descricao == "HAN")
+                if (status_descricao == "HA" || status_descricao == "HAN" || status_descricao == "I")
                 {
                     break;
                 }
@@ -456,7 +456,7 @@ public class ListaCCIHMDRDAO
             string error = ex.Message;
         }
 
-        status = status_descricao == "HA" || status_descricao == "HAN";
+        status = status_descricao == "HA" || status_descricao == "HAN" ;
         return status;
     }
 

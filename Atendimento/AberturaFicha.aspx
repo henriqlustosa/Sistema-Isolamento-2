@@ -513,10 +513,10 @@
                         return 'HA'; // Paciente internado com MDR ativo
                     } else if ((DataSistema <= dtInternacaoItem && DataSistema >= dtInternacaoPacienteItemMinus15Days) ||
                         dateOnlySistema === dateOnlyInternacaoItem || dateOnlySistema === dateOnlyDataInternacaoMinus15Days) {
-                        return 'HAN'; // Paciente com MDR ativo e não expirado
+                        return 'HA'; // Paciente com MDR ativo e não expirado
                     } else if (dtInternacaoItem && (DataSistema <= dtInternacaoItem && DataSistemaAdd6Months >= dtInternacaoItem) ||
                         dateOnlyDataSistemaAdd6Meses === dateOnlyInternacaoItem) {
-                        return 'HAN'; // Paciente internado com MDR ativo
+                        return 'HA'; // Paciente internado com MDR ativo
                     } else {
                         return 'I'; // Paciente com MDR inativo
                     }
